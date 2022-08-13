@@ -1,14 +1,12 @@
-import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet } from "react-native";
 import { useFonts } from "expo-font";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { useState } from "react";
 import { LoginScreen } from "./screens/Login";
+import CarteScreen from "./screens/Carte";
 
 export default function App() {
-  const [login, setLogin] = useState(false);
-
   const [loaded] = useFonts({
     Podkova: require("./assets/fonts/podkova.ttf"),
   });
@@ -17,7 +15,7 @@ export default function App() {
     return null;
   }
 
-  const Stack = createNativeStackNavigator();
+  const Stack = createNativeStackNavigator<ScreenNavigationTypes>();
 
   return (
     <NavigationContainer>
@@ -27,6 +25,7 @@ export default function App() {
         }}
       >
         <Stack.Screen name="Login" component={LoginScreen} />
+        <Stack.Screen name="Carte" component={CarteScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );

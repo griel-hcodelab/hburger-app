@@ -1,19 +1,19 @@
+import { useNavigation } from "@react-navigation/native";
 import { useState } from "react";
 import {
   Dimensions,
   ScrollView,
   StatusBar,
-  Text,
   TouchableOpacity,
 } from "react-native";
-import { TouchableHighlight } from "react-native-gesture-handler";
 import styled from "styled-components/native";
 import Hburger from "../../components/Logo/Hburger";
 import { colors, sizes } from "../../utils/variables";
+import CarteScreen from "../Carte";
 
 type activeBarTypes = "login" | "register" | "forgot";
 
-export const LoginScreen = () => {
+export const LoginScreen = ({ navigation }: any) => {
   const [activeTab, setActiveTab] = useState<activeBarTypes>("login");
   return (
     <ScrollView>
@@ -39,7 +39,7 @@ export const LoginScreen = () => {
               <TouchableOpacity onPress={() => setActiveTab("forgot")}>
                 <FormButtonText>Esqueceu a senha?</FormButtonText>
               </TouchableOpacity>
-              <FormButton>
+              <FormButton onPress={() => navigation.navigate("Carte")}>
                 <FormButtonText>Enviar</FormButtonText>
               </FormButton>
             </FormFooter>
