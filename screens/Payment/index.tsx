@@ -4,7 +4,7 @@ import Header from "../../components/Header";
 import PayIcon from "../../components/Icons/PayIcon";
 import { colors, sizes } from "../../utils/variables";
 
-const PaymentScreen = () => {
+const PaymentScreen = ({ navigation }: any) => {
   return (
     <ScrollView>
       <Container>
@@ -24,7 +24,7 @@ const PaymentScreen = () => {
             <FormInput placeholder="Nome" />
             <FormInput placeholder="Banco Emissor" />
           </FormInputs>
-          <FormSubmitButton>
+          <FormSubmitButton onPress={() => navigation.navigate("Orders")}>
             <PayIcon />
             <FormSubmitButtonText>Pagar Agora</FormSubmitButtonText>
           </FormSubmitButton>
