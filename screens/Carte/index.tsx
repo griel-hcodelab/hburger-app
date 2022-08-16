@@ -1,4 +1,5 @@
-import { Dimensions, StatusBar } from "react-native";
+import { Dimensions, StatusBar, View } from "react-native";
+import { ScrollView } from "react-native-gesture-handler";
 import styled from "styled-components/native";
 import CarteItem from "../../components/Carte/CarteItem";
 import PayButton from "../../components/Footer/PayButton";
@@ -8,6 +9,47 @@ import Header from "../../components/Header";
 import { colors } from "../../utils/variables";
 
 const CarteScreen = () => {
+  const breads = [
+    {
+      name: "Pão Australiano",
+      price: 3,
+    },
+    {
+      name: "Pão de Batata",
+      price: 2.5,
+    },
+    {
+      name: "Pão Tradicional",
+      price: 2,
+    },
+  ];
+  const ingredients = [
+    {
+      name: "Queijo Cheddar",
+      price: 2,
+    },
+    {
+      name: "Queijo Mussarela",
+      price: 2,
+    },
+    {
+      name: "Queijo Parmesão",
+      price: 2,
+    },
+    {
+      name: "Carne Bovina 125g",
+      price: 3,
+    },
+    {
+      name: "Carne de Frango 125g",
+      price: 2.5,
+    },
+    {
+      name: "Carne de Peixe 125g",
+      price: 2,
+    },
+  ];
+
   return (
     <Container>
       <StatusBar barStyle="light-content" backgroundColor={colors.orange} />
@@ -15,43 +57,25 @@ const CarteScreen = () => {
 
       <CarteScrollView>
         <CarteItemCategory>Escolha o pão</CarteItemCategory>
-        <CarteItem
-          type="radio"
-          name="Pão Australiano"
-          value={3}
-          checked={true}
-        />
-        <CarteItem
-          type="radio"
-          name="Pão de batata"
-          value={2.5}
-          checked={false}
-        />
-        <CarteItem
-          type="radio"
-          name="Pão tradicional"
-          value={2}
-          checked={false}
-        />
+        {breads.map((bread, index) => (
+          <CarteItem
+            key={index}
+            type="radio"
+            name={bread.name}
+            value={bread.price}
+            checked={false}
+          />
+        ))}
         <CarteItemCategory>Ingredientes</CarteItemCategory>
-        <CarteItem
-          type="check"
-          name="Pão Australiano"
-          value={3}
-          checked={true}
-        />
-        <CarteItem
-          type="check"
-          name="Pão de batata"
-          value={2.5}
-          checked={false}
-        />
-        <CarteItem
-          type="check"
-          name="Pão tradicional"
-          value={2}
-          checked={false}
-        />
+        {ingredients.map((ingredient, index) => (
+          <CarteItem
+            key={index}
+            type="check"
+            name={ingredient.name}
+            value={ingredient.price}
+            checked={false}
+          />
+        ))}
       </CarteScrollView>
 
       <Footer>
@@ -69,8 +93,9 @@ const Container = styled.SafeAreaView`
   height: ${Dimensions.get("window").height}px;
   position: relative;
 `;
-const CarteScrollView = styled.ScrollView`
+const CarteScrollView = styled(ScrollView)`
   margin-top: 50px;
+  margin-bottom: 80px;
   padding: 20px;
 `;
 const Footer = styled.View`
