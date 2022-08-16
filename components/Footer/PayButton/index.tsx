@@ -1,11 +1,14 @@
-import { Text } from "react-native";
 import styled from "styled-components/native";
 import { colors, sizes } from "../../../utils/variables";
 import PayIcon from "../../Icons/PayIcon";
 
-const PayButton = () => {
+type PayButtonProps = {
+  onPress?: () => void; 
+};
+
+const PayButton = ({ onPress }: PayButtonProps) => {
   return (
-    <Container>
+    <Container onPress={onPress}>
       <PayIcon />
       <PayText>PAGAR</PayText>
     </Container>

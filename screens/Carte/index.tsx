@@ -1,4 +1,4 @@
-import { Dimensions, StatusBar, View } from "react-native";
+import { Dimensions, StatusBar } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 import styled from "styled-components/native";
 import CarteItem from "../../components/Carte/CarteItem";
@@ -8,7 +8,7 @@ import Tray from "../../components/Footer/Tray";
 import Header from "../../components/Header";
 import { colors } from "../../utils/variables";
 
-const CarteScreen = () => {
+const CarteScreen = ({ navigation }: any) => {
   const breads = [
     {
       name: "Pão Australiano",
@@ -81,7 +81,7 @@ const CarteScreen = () => {
       <Footer>
         <Tray quantity={0} />
         <Subtotal value={0} />
-        <PayButton />
+        <PayButton onPress={() => navigation.navigate("Payment")} />
       </Footer>
     </Container>
   );
