@@ -11,6 +11,19 @@ const PaymentScreen = () => {
         <StatusBar barStyle="light-content" backgroundColor={colors.orange} />
         <Header title="Pagamento" />
         <Form>
+          <FormInputs>
+            <FormInput placeholder="Número do Cartão" />
+            <FormRow>
+              <FormColumn>
+                <FormInput placeholder="Validade" />
+              </FormColumn>
+              <FormColumn>
+                <FormInput placeholder="CVV" />
+              </FormColumn>
+            </FormRow>
+            <FormInput placeholder="Nome" />
+            <FormInput placeholder="Banco Emissor" />
+          </FormInputs>
           <FormSubmitButton>
             <PayIcon />
             <FormSubmitButtonText>Pagar Agora</FormSubmitButtonText>
@@ -28,10 +41,31 @@ const Container = styled.View`
 `;
 
 const Form = styled.View`
-  background-color: ${colors.white};
   flex: 1;
-  padding: ${sizes.space * 2.6}px;
+  margin-top: 51px;
+  background-color: ${colors.white};
   position: relative;
+`;
+
+const FormRow = styled.View`
+  flex-direction: row;
+  justify-content: space-between;
+`;
+
+const FormColumn = styled.View`
+  width: 48%;
+`;
+
+const FormInputs = styled.View`
+  padding: ${sizes.space * 2.6}px;
+`;
+
+const FormInput = styled.TextInput`
+  height: 50px;
+  margin-bottom: ${sizes.space * 1.5}px;
+  padding: 0 ${sizes.space * 2}px;
+  border: 1px solid ${colors.gray};
+  border-radius: 10px;
 `;
 
 const FormSubmitButton = styled.TouchableOpacity`
