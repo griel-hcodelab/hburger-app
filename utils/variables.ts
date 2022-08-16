@@ -6,6 +6,7 @@ export const colors = {
   gray2: "#EEEEEE",
   orange: "#FF760C",
   white: "#FFFFFF",
+  yellow: "#AE8717",
 };
 
 export const sizes = {
