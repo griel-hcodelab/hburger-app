@@ -3,7 +3,7 @@ import { useFonts } from "expo-font";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { LoginScreen } from "./screens/Login";
-import CarteScreen from "./screens/Carte";
+import { CarteScreen } from "./screens/Carte";
 import PaymentScreen from "./screens/Payment";
 
 export default function App() {
