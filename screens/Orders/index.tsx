@@ -1,4 +1,5 @@
-import { Dimensions, ScrollView, StatusBar } from "react-native";
+import { Dimensions, StatusBar } from "react-native";
+import { ScrollView } from "react-native-gesture-handler";
 import styled from "styled-components/native";
 import Header from "../../components/Header";
 import OrderCard from "../../components/OrderCard";
@@ -23,14 +24,32 @@ const orders = [
     items: 2,
     createdAt: new Date(),
   },
+  {
+    id: 4,
+    total: 59.90,
+    items: 2,
+    createdAt: new Date(),
+  },
+  {
+    id: 5,
+    total: 59.90,
+    items: 2,
+    createdAt: new Date(),
+  },
+  {
+    id: 6,
+    total: 59.90,
+    items: 2,
+    createdAt: new Date(),
+  },
 ];
 
 const OrdersScreen = () => {
   return (
-    <ScrollView>
-      <Container>
-        <StatusBar barStyle="light-content" backgroundColor={colors.orange} />
-        <Header title="Meus Pedidos" />
+    <Container>
+      <StatusBar barStyle="light-content" backgroundColor={colors.orange} />
+      <Header title="Meus Pedidos" />
+      <OrdersScrollView>
         <Orders>
           {orders.map(order => <OrderCard
             key={order.id}
@@ -39,8 +58,8 @@ const OrdersScreen = () => {
             items={order.items}
           />)}
         </Orders>
-      </Container>
-    </ScrollView>
+      </OrdersScrollView>
+    </Container>
   );
 };
 
@@ -50,8 +69,11 @@ const Container = styled.View`
   height: ${Dimensions.get("window").height}px;
 `;
 
-const Orders = styled.View`
+const OrdersScrollView = styled(ScrollView)`
   margin-top: 82px;
+`;
+
+const Orders = styled.View`
   padding: 0 ${sizes.space * 3}px;
 `;
 

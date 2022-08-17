@@ -1,5 +1,8 @@
 import styled from "styled-components/native";
 import { colors, sizes } from "../../utils/variables";
+import DeleteIcon from "../Icons/DeleteIcon";
+import DetailsIcon from "../Icons/DetailsIcon";
+import ShareIcon from "../Icons/ShareIcon";
 
 type OrderCardProps = {
   id: number;
@@ -40,7 +43,17 @@ const OrderCard = ({ id, total, items }: OrderCardProps) => {
           <CardDetailText>{formatId(String(id))}</CardDetailText>
         </CardDetail>
       </CardDetails>
-      <CardControls></CardControls>
+      <CardControls>
+        <CardControlButton>
+          <ShareIcon />
+        </CardControlButton>
+        <CardControlButton>
+          <DetailsIcon />
+        </CardControlButton>
+        <CardControlButton>
+          <DeleteIcon />
+        </CardControlButton>
+      </CardControls>
     </Card>
   );
 };
@@ -98,11 +111,20 @@ const CardDetailText = styled.Text`
 `;
 
 const CardControls = styled.View`
+  justify-content: space-around;
+  align-items: center;
   width: 62px;
   height: ${CARD_HEIGHT}px;
   border-style: dashed;
   border-left-color: ${colors.dark}; 
   border-left-width: 1px;
+`;
+
+const CardControlButton = styled.TouchableOpacity`
+  justify-content: center;
+  align-items: center;
+  width: 40px;
+  height: 40px;
 `;
 
 export default OrderCard;
