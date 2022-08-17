@@ -1,33 +1,49 @@
-import { createContext, ReactNode, useContext } from "react";
+import { createContext, ReactNode, useContext, useState } from "react";
+import { SelectedBreadTypes, SelectedIngredientsTypes } from "../../types/CarteTypes";
 
 type CarteContextType = {
-  breads: any;
+  addBread: ({ id, name, price }: SelectedBreadTypes) => void;
+  addIngredients: ({ id, name, price }: SelectedIngredientsTypes) => void;
+  selectedBread: SelectedBreadTypes | undefined;
+  selectedIngredients: SelectedIngredientsTypes[];
+  removeIngredients: (id: number) => void;
 };
 
 const CarteContext = createContext<CarteContextType>({} as CarteContextType);
 
 export default function CarteProvider({ children }: { children: ReactNode }) {
-  const getBreads = () => {
-    return [
-      {
-        name: "Pão Australiano",
-        price: 3,
-      },
-      {
-        name: "Pão de Batata",
-        price: 2.5,
-      },
-      {
-        name: "Pão Tradicional",
-        price: 2,
-      },
-    ];
+  const [selectedBread, setSelectedBread] = useState<SelectedBreadTypes>();
+  const [selectedIngredients, setSelectedIngredients] = useState<SelectedIngredientsTypes[]>([]);
+  const [trayItems, setTrayItems] = useState([])
+
+  const addBread = ({id, name, price}:SelectedBreadTypes) => {
+    setSelectedBread({
+      id,
+      name,
+      price,
+    });
   };
 
-  const breads = getBreads();
+  const addIngredients = ({id, name, price}:SelectedIngredientsTypes) => {
+    setSelectedIngredients([
+      ...selectedIngredients,
+      {
+        id,
+        name,
+        price,
+      },
+    ]);
+  }
+
+  const removeIngredients = (id: number) => {
+    setSelectedIngredients(selectedIngredients.filter(item => item.id !== id));
+  }
+
 
   return (
-    <CarteContext.Provider value={{ breads }}>{children}</CarteContext.Provider>
+    <CarteContext.Provider value={{ addBread, addIngredients, removeIngredients, selectedBread, selectedIngredients }}>
+      {children}
+    </CarteContext.Provider>
   );
 }
 
