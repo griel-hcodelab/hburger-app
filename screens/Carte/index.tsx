@@ -1,4 +1,5 @@
-import { Dimensions, StatusBar } from "react-native";
+import { useEffect } from "react";
+import { Button, Dimensions, StatusBar, View } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 import styled from "styled-components/native";
 import CarteItem from "../../components/Carte/CarteItem";
@@ -6,49 +7,74 @@ import PayButton from "../../components/Footer/PayButton";
 import Subtotal from "../../components/Footer/Subtotal";
 import Tray from "../../components/Footer/Tray";
 import Header from "../../components/Header";
+import CarteProvider, { useCarte } from "../../context/carte";
+import { SelectedIngredientsTypes } from "../../types/CarteTypes";
 import { colors } from "../../utils/variables";
 
-const CarteScreen = ({ navigation }: any) => {
+const CarteScreenComponent = ({ navigation }: any) => {
+  const Carte = useCarte();
+
+  useEffect(() => {
+    console.log("Adicionou pão", Carte.selectedIngredients);
+  }, [Carte.selectedIngredients]);
+
   const breads = [
     {
+      id: 1,
       name: "Pão Australiano",
       price: 3,
     },
     {
+      id: 2,
       name: "Pão de Batata",
       price: 2.5,
     },
     {
+      id: 3,
       name: "Pão Tradicional",
       price: 2,
     },
   ];
   const ingredients = [
     {
+      id: 1,
       name: "Queijo Cheddar",
       price: 2,
     },
     {
+      id: 2,
       name: "Queijo Mussarela",
       price: 2,
     },
     {
+      id: 3,
       name: "Queijo Parmesão",
       price: 2,
     },
     {
+      id: 4,
       name: "Carne Bovina 125g",
       price: 3,
     },
     {
+      id: 5,
       name: "Carne de Frango 125g",
       price: 2.5,
     },
     {
+      id: 6,
       name: "Carne de Peixe 125g",
       price: 2,
     },
   ];
+
+  const handlePress = ({ id, name, price }: SelectedIngredientsTypes) => {
+    if (Carte.selectedIngredients.find((item) => item.id === id)) {
+      Carte.removeIngredients(id);
+    } else {
+      Carte.addIngredients({ id, name, price });
+    }
+  };
 
   return (
     <Container>
@@ -57,25 +83,42 @@ const CarteScreen = ({ navigation }: any) => {
 
       <CarteScrollView>
         <CarteItemCategory>Escolha o pão</CarteItemCategory>
-        {breads.map((bread, index) => (
+        {breads.map((bread) => (
           <CarteItem
-            key={index}
+            id={bread.id}
+            key={bread.id}
             type="radio"
             name={bread.name}
             value={bread.price}
-            checked={false}
+            checked={Carte.selectedBread?.id === bread.id}
+            onPress={() =>
+              Carte.addBread({
+                id: bread.id,
+                name: bread.name,
+                price: bread.price,
+              })
+            }
           />
         ))}
         <CarteItemCategory>Ingredientes</CarteItemCategory>
-        {ingredients.map((ingredient, index) => (
+        {ingredients.map((ingredient) => (
           <CarteItem
-            key={index}
+            id={ingredient.id}
+            key={ingredient.id}
             type="check"
             name={ingredient.name}
             value={ingredient.price}
-            checked={false}
+            checked={
+              Carte.selectedIngredients.find(
+                (item) => item.id === ingredient.id
+              ) !== undefined
+            }
+            onPress={() => handlePress(ingredient)}
           />
         ))}
+        <View>
+          <Button title="Salvar" />
+        </View>
       </CarteScrollView>
 
       <Footer>
@@ -97,6 +140,8 @@ const CarteScrollView = styled(ScrollView)`
   margin-top: 50px;
   margin-bottom: 80px;
   padding: 20px;
+  padding-bottom: 100px;
+  height: ${Dimensions.get("screen").height}px;
 `;
 const Footer = styled.View`
   flex-direction: row;
@@ -114,4 +159,10 @@ const CarteItemCategory = styled.Text`
   margin-bottom: 40px;
 `;
 
-export default CarteScreen;
+export const CarteScreen = () => {
+  return (
+    <CarteProvider>
+      <CarteScreenComponent />
+    </CarteProvider>
+  );
+};

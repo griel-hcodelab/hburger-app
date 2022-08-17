@@ -6,20 +6,26 @@ import CheckButton from "../../Buttons/CheckButton";
 import RadioButton from "../../Buttons/RadioButton";
 
 type CarteItemTypes = {
+  id: number;
   type: string;
   name: string;
   value: number;
   checked: boolean;
+  onPress: () => void;
 };
 
 const CarteItem: React.FC<PropsWithChildren<CarteItemTypes>> = ({
+  id,
   type,
   name,
   value,
   checked,
+  onPress,
 }) => {
   return (
-    <CarteItemContainer>
+    <CarteItemContainer
+      onPress={onPress}
+    >
       {type === "radio" && <RadioButton checked={checked} />}
       {type === "check" && <CheckButton checked={checked} />}
       <CarteItemWrap>
