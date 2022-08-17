@@ -70,7 +70,9 @@ const Container = styled.View`
 `;
 
 const OrdersScrollView = styled(ScrollView)`
-  margin-top: 82px;
+  margin-top: 62px;
+  margin-bottom: 20px;
+  padding: 15px 0;
 `;
 
 const Orders = styled.View`
