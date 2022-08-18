@@ -1,17 +1,20 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Button, Dimensions, StatusBar, View } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 import styled from "styled-components/native";
 import CarteItem from "../../components/Carte/CarteItem";
 import PayButton from "../../components/Footer/PayButton";
 import Subtotal from "../../components/Footer/Subtotal";
-import Tray from "../../components/Footer/Tray";
+import TrayButton from "../../components/Footer/TrayButton";
 import Header from "../../components/Header";
-import CarteProvider, { useCarte } from "../../context/carte";
+import Tray from "../../components/Tray";
+import CarteProvider, { useCarte } from "../../context/Carte";
+
 import { SelectedIngredientsTypes } from "../../types/CarteTypes";
 import { colors } from "../../utils/variables";
 
 const CarteScreenComponent = ({ navigation }: any) => {
+  const [trayVisible, setTrayVisible] = useState<boolean>(false)
   const Carte = useCarte();
 
   useEffect(() => {
@@ -121,8 +124,10 @@ const CarteScreenComponent = ({ navigation }: any) => {
         </View>
       </CarteScrollView>
 
+      <Tray visible={trayVisible} />
+
       <Footer>
-        <Tray quantity={0} />
+        <TrayButton onPress={()=> setTrayVisible(!trayVisible)} quantity={0} />
         <Subtotal value={0} />
         <PayButton onPress={() => navigation.navigate("Payment")} />
       </Footer>

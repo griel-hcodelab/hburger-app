@@ -6,13 +6,15 @@ import TrayIcon from "../../Icons/TrayIcon";
 
 type TrayItemsPropsType = {
   quantity: number;
+  onPress: () => void;
 };
 
-const Tray: React.FC<PropsWithChildren<TrayItemsPropsType>> = ({
+const TrayButton: React.FC<PropsWithChildren<TrayItemsPropsType>> = ({
   quantity,
+  onPress,
 }) => {
   return (
-    <Container>
+    <Container onPress={onPress}>
       <TrayIcon />
       <TextContainer>
         <TrayText>Ver bandeja</TrayText>
@@ -41,4 +43,4 @@ const TrayTextItems = styled.Text`
   font-weight: bold;
 `;
 
-export default Tray;
+export default TrayButton;
