@@ -24,7 +24,6 @@ const CarteScreenComponent = ({ navigation }: any) => {
         setTotal(total + item.subTotal);
       }
     })
-    console.log(total)
   },[Carte.trayItems])
 
   const breads = [
