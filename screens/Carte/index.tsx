@@ -8,18 +8,24 @@ import Subtotal from "../../components/Footer/Subtotal";
 import TrayButton from "../../components/Footer/TrayButton";
 import Header from "../../components/Header";
 import Tray from "../../components/Tray";
-import CarteProvider, { useCarte } from "../../context/Carte";
+import { CarteProvider, useCarte } from "../../context/Carte";
 
 import { SelectedIngredientsTypes } from "../../types/CarteTypes";
 import { colors } from "../../utils/variables";
 
 const CarteScreenComponent = ({ navigation }: any) => {
-  const [trayVisible, setTrayVisible] = useState<boolean>(false)
+  const [trayVisible, setTrayVisible] = useState<boolean>(false);
+  const [total, setTotal] = useState<number>(0);
   const Carte = useCarte();
 
   useEffect(() => {
-    console.log("Adicionou pão", Carte.selectedIngredients);
-  }, [Carte.selectedIngredients]);
+    Carte.trayItems.forEach((item)=>{
+      if (!isNaN(item.subTotal)) {
+        setTotal(total + item.subTotal);
+      }
+    })
+    console.log(total)
+  },[Carte.trayItems])
 
   const breads = [
     {
@@ -127,8 +133,11 @@ const CarteScreenComponent = ({ navigation }: any) => {
       <Tray visible={trayVisible} items={Carte.trayItems} />
 
       <Footer>
-        <TrayButton onPress={()=> setTrayVisible(!trayVisible)} quantity={0} />
-        <Subtotal value={0} />
+        <TrayButton
+          onPress={() => setTrayVisible(!trayVisible)}
+          quantity={Carte.trayItems?.length}
+        />
+        <Subtotal value={total} />
         <PayButton onPress={() => navigation.navigate("Payment")} />
       </Footer>
     </Container>

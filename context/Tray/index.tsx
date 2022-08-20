@@ -1,4 +1,4 @@
-import { createContext, useContext } from "react";
+import { createContext, ReactNode, useContext } from "react";
 import { ViewStyle } from "react-native";
 import { SharedValue } from "react-native-reanimated";
 
@@ -12,16 +12,9 @@ type TrayPanelContextType = {
   styleArrow: ViewStyle;
 };
 
-const TrayPanelContext =
-  createContext<TrayPanelContextType>({
-    isOpen: false,
-    setIsOpen: () => {},
-    panelY: {} as SharedValue<number>,
-    bottomY: 0,
-    gestureHandler: {} as any,
-    stylePanel: {} as any,
-    styleArrow: {} as any,
-  });
+const TrayPanelContext = createContext<TrayPanelContextType>({} as TrayPanelContextType);
+
+export default function TrayProvider({ children }: { children: ReactNode }) {}
 
 export const useTray = () => {
   const context = useContext(TrayPanelContext);

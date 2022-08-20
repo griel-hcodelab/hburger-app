@@ -1,8 +1,15 @@
-import { createContext, ReactNode, useContext, useState } from "react";
+import {
+  createContext,
+  PropsWithChildren,
+  ReactNode,
+  useContext,
+  useState,
+} from "react";
 import {
   SelectedBreadTypes,
   SelectedIngredientsTypes,
 } from "../../types/CarteTypes";
+import { TrayItemsTypes } from "../../types/TrayTypes";
 
 type CarteContextType = {
   addBread: ({ id, name, price }: SelectedBreadTypes) => void;
@@ -11,17 +18,19 @@ type CarteContextType = {
   selectedIngredients: SelectedIngredientsTypes[];
   removeIngredients: (id: number) => void;
   createBurger: () => void;
-  trayItems: [];
+  trayItems: TrayItemsTypes[];
 };
 
 const CarteContext = createContext<CarteContextType>({} as CarteContextType);
 
-export default function CarteProvider({ children }: { children: ReactNode }) {
+export const CarteProvider = ({ children }: { children: ReactNode }) => {
   const [selectedBread, setSelectedBread] = useState<SelectedBreadTypes>();
   const [selectedIngredients, setSelectedIngredients] = useState<
     SelectedIngredientsTypes[]
   >([]);
-  const [trayItems, setTrayItems] = useState<any>([]);
+  const [trayItems, setTrayItems] = useState<TrayItemsTypes[]>([]);
+
+  let subTotalTemp: number;
 
   const addBread = ({ id, name, price }: SelectedBreadTypes) => {
     setSelectedBread({
@@ -48,19 +57,31 @@ export default function CarteProvider({ children }: { children: ReactNode }) {
     );
   };
 
-  const createBurger = () => {
+  const createBurger = async () => {
+    await calcSubtotal();
+    const id = trayItems.length + 1;
+
     setTrayItems([
       ...trayItems,
       {
-        id: Math.random(),
+        id,
         bread: selectedBread,
         ingredients: selectedIngredients,
-        price: (selectedBread ? selectedBread.price : 0) + selectedIngredients.reduce(
-          (acc, item) => acc + item.price,
-          0
-        )
+        subTotal: subTotalTemp,
       },
     ]);
+
+    setSelectedBread(undefined);
+    setSelectedIngredients([]);
+  };
+
+  const calcSubtotal = async () => {
+    const breadPrice = selectedBread?.price || 0;
+    const ingredientsPrice = selectedIngredients.reduce(
+      (acc, item) => acc + item.price,
+      0
+    );
+    subTotalTemp = breadPrice + ingredientsPrice;
   };
 
   return (
@@ -78,7 +99,7 @@ export default function CarteProvider({ children }: { children: ReactNode }) {
       {children}
     </CarteContext.Provider>
   );
-}
+};
 
 export function useCarte() {
   const context = useContext(CarteContext);

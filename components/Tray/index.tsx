@@ -33,42 +33,44 @@ const Burger = [
 ];
 
 const Tray: React.FC<PropsWithChildren<TrayTypes>> = ({ visible, items }) => {
-    const {stylePanel, gestureHandler} = useTray()
+  const { stylePanel, gestureHandler } = useTray();
   return (
     <>
-    <PanGestureHandler onGestureEvent={gestureHandler}>
-    <Animated.View style={stylePanel} >
-      <TrayContainer visible={visible}>
-        {items && <TrayItems>
-          {items.map((item: any) => (
-            <TrayItem key={item.id}>
-              <TrayItemIdBlock>
-                <TrayItemId>{item.id}</TrayItemId>
-              </TrayItemIdBlock>
-              <TrayIngredientsContainer>
-                <TrayIngredientBlock>
-                  <TrayIngredient>{item.bread.name}</TrayIngredient>
-                  <TrayIngredientPrice>
-                    {formatCurrency(item.bread.price)}
-                  </TrayIngredientPrice>
-                </TrayIngredientBlock>
-                {item.ingredients.map((ingredient: any) => (
-                  <TrayIngredientBlock key={ingredient.id}>
-                    <TrayIngredient>{ingredient.name}</TrayIngredient>
-                    <TrayIngredientPrice>
-                      {formatCurrency(ingredient.price)}
-                    </TrayIngredientPrice>
-                  </TrayIngredientBlock>
+      <PanGestureHandler onGestureEvent={gestureHandler}>
+        <Animated.View style={stylePanel}>
+          <TrayContainer visible={visible}>
+            {items && (
+              <TrayItems>
+                {items.map((item: any) => (
+                  <TrayItem key={item.id}>
+                    <TrayItemIdBlock>
+                      <TrayItemId>{item.id}</TrayItemId>
+                    </TrayItemIdBlock>
+                    <TrayIngredientsContainer>
+                      <TrayIngredientBlock>
+                        <TrayIngredient>{item.bread.name}</TrayIngredient>
+                        <TrayIngredientPrice>
+                          {formatCurrency(item.bread.price)}
+                        </TrayIngredientPrice>
+                      </TrayIngredientBlock>
+                      {item.ingredients.map((ingredient: any) => (
+                        <TrayIngredientBlock key={ingredient.id}>
+                          <TrayIngredient>{ingredient.name}</TrayIngredient>
+                          <TrayIngredientPrice>
+                            {formatCurrency(ingredient.price)}
+                          </TrayIngredientPrice>
+                        </TrayIngredientBlock>
+                      ))}
+                    </TrayIngredientsContainer>
+                    <TrayPriceBlock>
+                      <TrayPrice>{formatCurrency(item.subTotal)}</TrayPrice>
+                    </TrayPriceBlock>
+                  </TrayItem>
                 ))}
-              </TrayIngredientsContainer>
-              <TrayPriceBlock>
-                <TrayPrice>{formatCurrency(item.total)}</TrayPrice>
-              </TrayPriceBlock>
-            </TrayItem>
-          ))}
-        </TrayItems>}
-      </TrayContainer>
-      </Animated.View>
+              </TrayItems>
+            )}
+          </TrayContainer>
+        </Animated.View>
       </PanGestureHandler>
     </>
   );
@@ -79,7 +81,8 @@ const TrayContainer = styled.View<{ visible: boolean }>`
   width: 100%;
   height: ${Dimensions.get("window").height - 315}px;
   position: absolute;
-  bottom: ${({visible}) => (visible ? 75 : -Dimensions.get('screen').height )}px;
+  bottom: ${({ visible }) =>
+    visible ? 75 : -Dimensions.get("screen").height}px;
 `;
 const TrayItems = styled.ScrollView`
   background-color: #fff;
