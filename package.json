@@ -7,7 +7,7 @@
     "android": "expo start --android",
     "ios": "expo start --ios",
     "web": "expo start --web",
-    "build:dev":"eas build --platform android --profile dev --local"
+    "build:dev":"eas build --platform android --profile dev"
 
   },
   "dependencies": {
