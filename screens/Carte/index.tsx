@@ -19,12 +19,12 @@ const CarteScreenComponent = ({ navigation }: any) => {
   const Carte = useCarte();
 
   useEffect(() => {
-    Carte.trayItems.forEach((item)=>{
+    Carte.trayItems.forEach((item) => {
       if (!isNaN(item.subTotal)) {
         setTotal(total + item.subTotal);
       }
-    })
-  },[Carte.trayItems])
+    });
+  }, [Carte.trayItems]);
 
   const breads = [
     {
@@ -124,20 +124,26 @@ const CarteScreenComponent = ({ navigation }: any) => {
             onPress={() => handlePress(ingredient)}
           />
         ))}
-        <View>
-          <Button onPress={Carte.createBurger} title="Salvar" />
-        </View>
       </CarteScrollView>
 
       <Tray visible={trayVisible} items={Carte.trayItems} />
 
       <Footer>
-        <TrayButton
-          onPress={() => setTrayVisible(!trayVisible)}
-          quantity={Carte.trayItems?.length}
-        />
-        <Subtotal value={total} />
-        <PayButton onPress={() => navigation.navigate("Payment")} />
+        <SaveBurgerContainer>
+          <Button
+            disabled={(!Carte.selectedBread || !Carte.selectedIngredients) ? true : false}
+            onPress={Carte.createBurger}
+            title={(!Carte.selectedBread || !Carte.selectedIngredients) ? "Escolha seu lanche" : "Salvar"}
+          />
+        </SaveBurgerContainer>
+        <FooterButtonsContainer>
+          <TrayButton
+            onPress={() => setTrayVisible(!trayVisible)}
+            quantity={Carte.trayItems?.length}
+          />
+          <Subtotal value={total} />
+          <PayButton onPress={() => navigation.navigate("Payment")} />
+        </FooterButtonsContainer>
       </Footer>
     </Container>
   );
@@ -157,12 +163,15 @@ const CarteScrollView = styled(ScrollView)`
   height: ${Dimensions.get("screen").height}px;
 `;
 const Footer = styled.View`
-  flex-direction: row;
   position: absolute;
-  bottom: 7px;
+  bottom: 58px;
   width: 100%;
   background-color: white;
   height: 68px;
+`;
+const FooterButtonsContainer = styled.View`
+  flex-direction: row;
+  background-color: ${colors.white};
 `;
 const CarteItemCategory = styled.Text`
   font-size: 22px;
@@ -171,6 +180,7 @@ const CarteItemCategory = styled.Text`
   margin-top: 20px;
   margin-bottom: 40px;
 `;
+const SaveBurgerContainer = styled.View``;
 
 export const CarteScreen = () => {
   return (
