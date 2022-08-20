@@ -32,15 +32,15 @@ const Burger = [
   },
 ];
 
-const Tray: React.FC<PropsWithChildren<TrayTypes>> = ({ visible }) => {
+const Tray: React.FC<PropsWithChildren<TrayTypes>> = ({ visible, items }) => {
     const {stylePanel, gestureHandler} = useTray()
   return (
     <>
     <PanGestureHandler onGestureEvent={gestureHandler}>
     <Animated.View style={stylePanel} >
       <TrayContainer visible={visible}>
-        <TrayItems>
-          {Burger.map((item) => (
+        {items && <TrayItems>
+          {items.map((item: any) => (
             <TrayItem key={item.id}>
               <TrayItemIdBlock>
                 <TrayItemId>{item.id}</TrayItemId>
@@ -52,7 +52,7 @@ const Tray: React.FC<PropsWithChildren<TrayTypes>> = ({ visible }) => {
                     {formatCurrency(item.bread.price)}
                   </TrayIngredientPrice>
                 </TrayIngredientBlock>
-                {item.ingredients.map((ingredient) => (
+                {item.ingredients.map((ingredient: any) => (
                   <TrayIngredientBlock key={ingredient.id}>
                     <TrayIngredient>{ingredient.name}</TrayIngredient>
                     <TrayIngredientPrice>
@@ -66,7 +66,7 @@ const Tray: React.FC<PropsWithChildren<TrayTypes>> = ({ visible }) => {
               </TrayPriceBlock>
             </TrayItem>
           ))}
-        </TrayItems>
+        </TrayItems>}
       </TrayContainer>
       </Animated.View>
       </PanGestureHandler>

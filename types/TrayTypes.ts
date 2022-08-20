@@ -3,6 +3,7 @@ import { SharedValue } from "react-native-reanimated";
 
 export type TrayTypes = {
     visible: boolean
+    items: any
 }
 
 export type TrayPanelTypes = {

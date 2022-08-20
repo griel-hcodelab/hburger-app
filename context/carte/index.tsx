@@ -1,5 +1,8 @@
 import { createContext, ReactNode, useContext, useState } from "react";
-import { SelectedBreadTypes, SelectedIngredientsTypes } from "../../types/CarteTypes";
+import {
+  SelectedBreadTypes,
+  SelectedIngredientsTypes,
+} from "../../types/CarteTypes";
 
 type CarteContextType = {
   addBread: ({ id, name, price }: SelectedBreadTypes) => void;
@@ -7,16 +10,20 @@ type CarteContextType = {
   selectedBread: SelectedBreadTypes | undefined;
   selectedIngredients: SelectedIngredientsTypes[];
   removeIngredients: (id: number) => void;
+  createBurger: () => void;
+  trayItems: [];
 };
 
 const CarteContext = createContext<CarteContextType>({} as CarteContextType);
 
 export default function CarteProvider({ children }: { children: ReactNode }) {
   const [selectedBread, setSelectedBread] = useState<SelectedBreadTypes>();
-  const [selectedIngredients, setSelectedIngredients] = useState<SelectedIngredientsTypes[]>([]);
-  const [trayItems, setTrayItems] = useState([])
+  const [selectedIngredients, setSelectedIngredients] = useState<
+    SelectedIngredientsTypes[]
+  >([]);
+  const [trayItems, setTrayItems] = useState<any>([]);
 
-  const addBread = ({id, name, price}:SelectedBreadTypes) => {
+  const addBread = ({ id, name, price }: SelectedBreadTypes) => {
     setSelectedBread({
       id,
       name,
@@ -24,7 +31,7 @@ export default function CarteProvider({ children }: { children: ReactNode }) {
     });
   };
 
-  const addIngredients = ({id, name, price}:SelectedIngredientsTypes) => {
+  const addIngredients = ({ id, name, price }: SelectedIngredientsTypes) => {
     setSelectedIngredients([
       ...selectedIngredients,
       {
@@ -33,15 +40,41 @@ export default function CarteProvider({ children }: { children: ReactNode }) {
         price,
       },
     ]);
-  }
+  };
 
   const removeIngredients = (id: number) => {
-    setSelectedIngredients(selectedIngredients.filter(item => item.id !== id));
-  }
+    setSelectedIngredients(
+      selectedIngredients.filter((item) => item.id !== id)
+    );
+  };
 
+  const createBurger = () => {
+    setTrayItems([
+      ...trayItems,
+      {
+        id: Math.random(),
+        bread: selectedBread,
+        ingredients: selectedIngredients,
+        price: (selectedBread ? selectedBread.price : 0) + selectedIngredients.reduce(
+          (acc, item) => acc + item.price,
+          0
+        )
+      },
+    ]);
+  };
 
   return (
-    <CarteContext.Provider value={{ addBread, addIngredients, removeIngredients, selectedBread, selectedIngredients }}>
+    <CarteContext.Provider
+      value={{
+        addBread,
+        addIngredients,
+        removeIngredients,
+        createBurger,
+        selectedBread,
+        selectedIngredients,
+        trayItems
+      }}
+    >
       {children}
     </CarteContext.Provider>
   );

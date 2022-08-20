@@ -120,11 +120,11 @@ const CarteScreenComponent = ({ navigation }: any) => {
           />
         ))}
         <View>
-          <Button title="Salvar" />
+          <Button onPress={Carte.createBurger} title="Salvar" />
         </View>
       </CarteScrollView>
 
-      <Tray visible={trayVisible} />
+      <Tray visible={trayVisible} items={Carte.trayItems} />
 
       <Footer>
         <TrayButton onPress={()=> setTrayVisible(!trayVisible)} quantity={0} />
