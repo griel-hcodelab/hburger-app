@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Button, Dimensions, StatusBar, View } from "react-native";
+import { Button, Dimensions, StatusBar } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 import styled from "styled-components/native";
 import CarteItem from "../../components/Carte/CarteItem";
@@ -9,8 +9,9 @@ import TrayButton from "../../components/Footer/TrayButton";
 import Header from "../../components/Header";
 import Tray from "../../components/Tray";
 import { CarteProvider, useCarte } from "../../context/Carte";
+import { BREADS, INGREDIENTS } from "../../data";
 
-import { SelectedIngredientsTypes } from "../../types/CarteTypes";
+import IngredientType from "../../types/Ingredient";
 import { colors } from "../../utils/variables";
 
 const CarteScreenComponent = ({ navigation }: any) => {
@@ -26,61 +27,13 @@ const CarteScreenComponent = ({ navigation }: any) => {
     });
   }, [Carte.trayItems]);
 
-  const breads = [
-    {
-      id: 1,
-      name: "Pão Australiano",
-      price: 3,
-    },
-    {
-      id: 2,
-      name: "Pão de Batata",
-      price: 2.5,
-    },
-    {
-      id: 3,
-      name: "Pão Tradicional",
-      price: 2,
-    },
-  ];
-  const ingredients = [
-    {
-      id: 1,
-      name: "Queijo Cheddar",
-      price: 2,
-    },
-    {
-      id: 2,
-      name: "Queijo Mussarela",
-      price: 2,
-    },
-    {
-      id: 3,
-      name: "Queijo Parmesão",
-      price: 2,
-    },
-    {
-      id: 4,
-      name: "Carne Bovina 125g",
-      price: 3,
-    },
-    {
-      id: 5,
-      name: "Carne de Frango 125g",
-      price: 2.5,
-    },
-    {
-      id: 6,
-      name: "Carne de Peixe 125g",
-      price: 2,
-    },
-  ];
+  const handlePress = (ingredient: IngredientType) => {
+    const ingredientIsSelected = Carte.selectedIngredients.find((item) => item.id === ingredient.id);
 
-  const handlePress = ({ id, name, price }: SelectedIngredientsTypes) => {
-    if (Carte.selectedIngredients.find((item) => item.id === id)) {
-      Carte.removeIngredients(id);
+    if (ingredientIsSelected) {
+      Carte.removeIngredients(ingredient.id);
     } else {
-      Carte.addIngredients({ id, name, price });
+      Carte.addIngredients(ingredient);
     }
   };
 
@@ -91,7 +44,7 @@ const CarteScreenComponent = ({ navigation }: any) => {
 
       <CarteScrollView>
         <CarteItemCategory>Escolha o pão</CarteItemCategory>
-        {breads.map((bread) => (
+        {BREADS.map((bread) => (
           <CarteItem
             id={bread.id}
             key={bread.id}
@@ -103,7 +56,7 @@ const CarteScreenComponent = ({ navigation }: any) => {
           />
         ))}
         <CarteItemCategory>Ingredientes</CarteItemCategory>
-        {ingredients.map((ingredient) => (
+        {INGREDIENTS.map((ingredient) => (
           <CarteItem
             id={ingredient.id}
             key={ingredient.id}
