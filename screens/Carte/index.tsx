@@ -99,13 +99,7 @@ const CarteScreenComponent = ({ navigation }: any) => {
             name={bread.name}
             value={bread.price}
             checked={Carte.selectedBread?.id === bread.id}
-            onPress={() =>
-              Carte.addBread({
-                id: bread.id,
-                name: bread.name,
-                price: bread.price,
-              })
-            }
+            onPress={() => Carte.addBread(bread)}
           />
         ))}
         <CarteItemCategory>Ingredientes</CarteItemCategory>
@@ -182,10 +176,10 @@ const CarteItemCategory = styled.Text`
 `;
 const SaveBurgerContainer = styled.View``;
 
-export const CarteScreen = () => {
+export const CarteScreen = ({ navigation }: any) => {
   return (
     <CarteProvider>
-      <CarteScreenComponent />
+      <CarteScreenComponent navigation={navigation} />
     </CarteProvider>
   );
 };
