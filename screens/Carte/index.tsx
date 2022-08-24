@@ -28,7 +28,7 @@ const CarteScreenComponent = ({ navigation }: any) => {
   }, [Carte.trayItems]);
 
   const handlePress = (ingredient: IngredientType) => {
-    const ingredientIsSelected = Carte.selectedIngredients.find((item) => item.id === ingredient.id);
+    const ingredientIsSelected = !!(Carte.selectedIngredients.find((item) => item.id === ingredient.id));
 
     if (ingredientIsSelected) {
       Carte.removeIngredients(ingredient.id);
