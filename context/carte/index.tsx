@@ -1,21 +1,18 @@
+import type BreadType from "../../types/Bread";
+import type IngredientType from "../../types/Ingredient";
+import type { TrayItemsTypes } from "../../types/TrayTypes";
 import {
   createContext,
-  PropsWithChildren,
   ReactNode,
   useContext,
   useState,
 } from "react";
-import {
-  SelectedBreadTypes,
-  SelectedIngredientsTypes,
-} from "../../types/CarteTypes";
-import { TrayItemsTypes } from "../../types/TrayTypes";
 
 type CarteContextType = {
-  addBread: ({ id, name, price }: SelectedBreadTypes) => void;
-  addIngredients: ({ id, name, price }: SelectedIngredientsTypes) => void;
-  selectedBread: SelectedBreadTypes | undefined;
-  selectedIngredients: SelectedIngredientsTypes[];
+  addBread: (bread: BreadType) => void;
+  addIngredients: (ingredient: IngredientType) => void;
+  selectedBread: BreadType | undefined;
+  selectedIngredients: IngredientType[];
   removeIngredients: (id: number) => void;
   createBurger: () => void;
   trayItems: TrayItemsTypes[];
@@ -24,15 +21,15 @@ type CarteContextType = {
 const CarteContext = createContext<CarteContextType>({} as CarteContextType);
 
 export const CarteProvider = ({ children }: { children: ReactNode }) => {
-  const [selectedBread, setSelectedBread] = useState<SelectedBreadTypes>();
+  const [selectedBread, setSelectedBread] = useState<BreadType>();
   const [selectedIngredients, setSelectedIngredients] = useState<
-    SelectedIngredientsTypes[]
+  IngredientType[]
   >([]);
   const [trayItems, setTrayItems] = useState<TrayItemsTypes[]>([]);
 
   let subTotalTemp: number;
 
-  const addBread = ({ id, name, price }: SelectedBreadTypes) => {
+  const addBread = ({ id, name, price }: BreadType) => {
     setSelectedBread({
       id,
       name,
@@ -40,7 +37,7 @@ export const CarteProvider = ({ children }: { children: ReactNode }) => {
     });
   };
 
-  const addIngredients = ({ id, name, price }: SelectedIngredientsTypes) => {
+  const addIngredients = ({ id, name, price }: IngredientType) => {
     setSelectedIngredients([
       ...selectedIngredients,
       {
