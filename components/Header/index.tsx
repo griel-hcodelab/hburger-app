@@ -1,3 +1,4 @@
+import { useNavigation } from "@react-navigation/native";
 import { LinearGradient } from "expo-linear-gradient";
 import { PropsWithChildren } from "react";
 import { ImageBackground } from "react-native";
@@ -12,6 +13,8 @@ type HeaderTypes = {
 };
 
 const Header: React.FC<PropsWithChildren<HeaderTypes>> = ({ title }) => {
+  const navigation = useNavigation();
+
   return (
     <Container>
       <ImageBackground
@@ -31,7 +34,7 @@ const Header: React.FC<PropsWithChildren<HeaderTypes>> = ({ title }) => {
           }}
           style={{ width: "100%", height: 200 }}
         >
-          <Hburger />
+          <Hburger onPress={() => navigation.navigate("Carte")} />
           <Title>
             {title ? <TitleText>{title}</TitleText> : <DefaultTitleText />}
           </Title>
@@ -60,3 +63,6 @@ const TitleText = styled.Text`
 `;
 
 export default Header;
+function Carte(Carte: any): void {
+  throw new Error("Function not implemented.");
+}

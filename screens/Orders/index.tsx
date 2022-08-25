@@ -48,7 +48,7 @@ const OrdersScreen = () => {
   return (
     <Container>
       <StatusBar barStyle="light-content" backgroundColor={colors.orange} />
-      <Header title="Meus Pedidos" />
+      <Header title="Meus Pedidos" onPress={() => navigation.navigate("Carte")} />
       <OrdersScrollView>
         <Orders>
           {orders.map(order => <OrderCard
