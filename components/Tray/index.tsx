@@ -1,5 +1,5 @@
 import { PropsWithChildren } from "react";
-import { Dimensions, ViewStyle } from "react-native";
+import { Dimensions } from "react-native";
 import { PanGestureHandler } from "react-native-gesture-handler";
 import Animated from "react-native-reanimated";
 import styled from "styled-components/native";
