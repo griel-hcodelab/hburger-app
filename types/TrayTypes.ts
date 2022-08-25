@@ -1,6 +1,7 @@
 import { ViewStyle } from "react-native";
 import { SharedValue } from "react-native-reanimated";
-import { SelectedBreadTypes, SelectedIngredientsTypes } from "./CarteTypes";
+import IngredientType from "./Ingredient";
+import BreadType from "./Bread";
 
 export type TrayTypes = {
   visible: boolean;
@@ -19,7 +20,7 @@ export type TrayPanelTypes = {
 
 export type TrayItemsTypes = {
   id: number;
-  bread: SelectedBreadTypes | undefined;
-  ingredients: SelectedIngredientsTypes[];
+  bread: BreadType | undefined;
+  ingredients: IngredientType[];
   subTotal: number;
 };
