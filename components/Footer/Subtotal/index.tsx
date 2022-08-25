@@ -1,8 +1,7 @@
 import { PropsWithChildren } from "react";
-import { Text } from "react-native";
 import styled from "styled-components/native";
 import { formatCurrency } from "../../../utils/formatCurrenty";
-import { sizes } from "../../../utils/variables";
+import { colors, sizes } from "../../../utils/variables";
 
 type SubtotalPropsType = {
   value: number;
@@ -14,7 +13,7 @@ const Subtotal: React.FC<PropsWithChildren<SubtotalPropsType>> = ({
   return (
     <Container>
       <SubtotalValue>{formatCurrency(value)}</SubtotalValue>
-      <Text>SUBTOTAL</Text>
+      <SubtotalLabel>SUBTOTAL</SubtotalLabel>
     </Container>
   );
 };
@@ -22,10 +21,15 @@ const Subtotal: React.FC<PropsWithChildren<SubtotalPropsType>> = ({
 const Container = styled.View`
   justify-content: center;
   align-items: flex-end;
-  padding: ${sizes.spacePx};
+  padding: 0 ${sizes.space * 2}px;
 `;
+
 const SubtotalValue = styled.Text`
   font-size: 24px;
+`;
+
+const SubtotalLabel = styled.Text`
+  color: ${colors.gray};
 `;
 
 export default Subtotal;

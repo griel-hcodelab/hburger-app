@@ -1,5 +1,4 @@
 import { PropsWithChildren } from "react";
-import { Text } from "react-native";
 import styled from "styled-components/native";
 import { colors } from "../../../utils/variables";
 import TrayIcon from "../../Icons/TrayIcon";
@@ -8,6 +7,14 @@ type TrayItemsPropsType = {
   quantity: number;
   onPress: () => void;
 };
+
+const trayText = (quantity: number) => {
+  if (quantity === 0) {
+    return "Nenhum hamburger";
+  }
+
+  return `${quantity} hamburgers`;
+}
 
 const TrayButton: React.FC<PropsWithChildren<TrayItemsPropsType>> = ({
   quantity,
@@ -18,10 +25,7 @@ const TrayButton: React.FC<PropsWithChildren<TrayItemsPropsType>> = ({
       <TrayIcon />
       <TextContainer>
         <TrayText>Ver bandeja</TrayText>
-        <TrayTextItems>
-          {quantity === 0 ? 0 : quantity}{" "}
-          {quantity <= 1 ? "hamburger" : "hamburgers"}
-        </TrayTextItems>
+        <TrayTextItems>{trayText(quantity)}</TrayTextItems>
       </TextContainer>
     </Container>
   );
@@ -31,8 +35,8 @@ const Container = styled.TouchableOpacity`
   flex-direction: row;
   background-color: ${colors.orange};
   align-items: center;
-  padding: 10px;
-  height: 68px;
+  padding: 0 10px;
+  height: 100%;
   flex: 1;
 `;
 const TextContainer = styled.View`

@@ -76,13 +76,11 @@ const CarteScreenComponent = ({ navigation }: any) => {
       <Tray visible={trayVisible} items={Carte.trayItems} />
 
       <Footer>
-        <SaveBurgerContainer>
-          <Button
-            disabled={(!Carte.selectedBread || !Carte.selectedIngredients) ? true : false}
-            onPress={Carte.createBurger}
-            title={(!Carte.selectedBread || !Carte.selectedIngredients) ? "Escolha seu lanche" : "Salvar"}
-          />
-        </SaveBurgerContainer>
+        <Button
+          disabled={!Carte.selectedBread || !Carte.selectedIngredients.length}
+          onPress={Carte.createBurger}
+          title={(!Carte.selectedBread || !Carte.selectedIngredients.length) ? "Escolha seu lanche" : "Salvar"}
+        />
         <FooterButtonsContainer>
           <TrayButton
             onPress={() => setTrayVisible(!trayVisible)}
@@ -100,26 +98,25 @@ const Container = styled.SafeAreaView`
   background-color: ${colors.dark};
   width: ${Dimensions.get("window").width}px;
   height: ${Dimensions.get("window").height}px;
-  position: relative;
 `;
+
 const CarteScrollView = styled(ScrollView)`
   margin-top: 50px;
-  margin-bottom: 80px;
-  padding: 20px;
-  padding-bottom: 100px;
-  height: ${Dimensions.get("screen").height}px;
+  margin-bottom: 110px;
+  padding: 0 20px;
 `;
+
 const Footer = styled.View`
   position: absolute;
-  bottom: 58px;
+  bottom: 0;
   width: 100%;
-  background-color: white;
-  height: 68px;
 `;
+
 const FooterButtonsContainer = styled.View`
   flex-direction: row;
   background-color: ${colors.white};
 `;
+
 const CarteItemCategory = styled.Text`
   font-size: 22px;
   color: ${colors.white};
@@ -127,7 +124,6 @@ const CarteItemCategory = styled.Text`
   margin-top: 20px;
   margin-bottom: 40px;
 `;
-const SaveBurgerContainer = styled.View``;
 
 export const CarteScreen = ({ navigation }: any) => {
   return (
