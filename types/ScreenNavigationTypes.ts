@@ -1,4 +1,4 @@
-type ScreenNavigationTypes = {
+export type ScreenNavigationTypes = {
   Login: undefined;
   Carte: undefined;
   Payment: undefined;
