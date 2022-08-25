@@ -46,7 +46,6 @@ const CarteScreenComponent = ({ navigation }: any) => {
         <CarteItemCategory>Escolha o pão</CarteItemCategory>
         {BREADS.map((bread) => (
           <CarteItem
-            id={bread.id}
             key={bread.id}
             type="radio"
             name={bread.name}
@@ -58,7 +57,6 @@ const CarteScreenComponent = ({ navigation }: any) => {
         <CarteItemCategory>Ingredientes</CarteItemCategory>
         {INGREDIENTS.map((ingredient) => (
           <CarteItem
-            id={ingredient.id}
             key={ingredient.id}
             type="check"
             name={ingredient.name}
