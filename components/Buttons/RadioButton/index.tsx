@@ -4,14 +4,16 @@ import { colors } from "../../../utils/variables";
 
 type RadioButtonTypes = {
   checked: boolean;
+  onPress: () => void;
 };
 
 const RadioButton: React.FC<PropsWithChildren<RadioButtonTypes>> = ({
   checked,
+  onPress
 }) => {
   return (
     <>
-      <RadioButtonContainer>
+      <RadioButtonContainer onPress={onPress}>
         {checked && <RadioButtonInner></RadioButtonInner>}
       </RadioButtonContainer>
     </>

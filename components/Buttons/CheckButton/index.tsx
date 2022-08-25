@@ -4,14 +4,16 @@ import { colors } from "../../../utils/variables";
 
 type CheckButtonTypes = {
   checked: boolean;
+  onPress: () => void;
 };
 
 const CheckButton: React.FC<PropsWithChildren<CheckButtonTypes>> = ({
   checked,
+  onPress,
 }) => {
   return (
     <>
-      <CheckButtonContainer>
+      <CheckButtonContainer onPress={onPress}>
         {checked && <CheckButtonInner></CheckButtonInner>}
       </CheckButtonContainer>
     </>
