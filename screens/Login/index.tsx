@@ -20,24 +20,46 @@ export const LoginScreen = ({ navigation }: any) => {
         <StatusBar barStyle="light-content" backgroundColor={colors.orange} />
         <Hburger logoSize={120} />
         <TabsContainer>
-          <Tab onPress={() => setActiveTab("login")} active={activeTab === "login"}>
+          <Tab
+            onPress={() => setActiveTab("login")}
+            active={activeTab === "login"}
+          >
             <TabText>Login</TabText>
           </Tab>
-          <Tab onPress={() => setActiveTab("register")} active={activeTab === "register"}>
+          <Tab
+            onPress={() => setActiveTab("register")}
+            active={activeTab === "register"}
+          >
             <TabText>Cadastro</TabText>
           </Tab>
         </TabsContainer>
         <FormContainer>
           <Form>
             <FormInputContainer>
-              {activeTab === "forgot" && <FormForgotLabel>Informe o seu e-mail:</FormForgotLabel>}
-              {activeTab === "register" && <FormInput placeholder="Nome" />}
-              <FormInput placeholder="E-mail" />
-              {activeTab !== "forgot" && <FormInput placeholder="Senha" />}
+              {activeTab === "forgot" && (
+                <FormForgotLabel>Informe o seu e-mail:</FormForgotLabel>
+              )}
+              {activeTab === "register" && (
+                <FormInput placeholder="Nome" returnKeyType={"next"} />
+              )}
+              <FormInput
+                placeholder="E-mail"
+                keyboardType="email-address"
+                returnKeyType={"next"}
+              />
+              {activeTab !== "forgot" && (
+                <FormInput
+                  placeholder="Senha"
+                  secureTextEntry={true}
+                  returnKeyType={"send"}
+                />
+              )}
             </FormInputContainer>
             <FormFooter>
               <TouchableOpacity onPress={() => setActiveTab("forgot")}>
-                <FormForgotPasswordButton>Esqueceu a senha?</FormForgotPasswordButton>
+                <FormForgotPasswordButton>
+                  Esqueceu a senha?
+                </FormForgotPasswordButton>
               </TouchableOpacity>
               <FormButton onPress={() => navigation.navigate("Carte")}>
                 <FormButtonText>Enviar</FormButtonText>
@@ -69,7 +91,8 @@ const TabsContainer = styled.View`
 `;
 
 const Tab = styled.TouchableOpacity<{ active: boolean }>`
-  background-color: ${({ active }) => active ? colors.orange : `rgba(255, 118, 12, 0.25)`};
+  background-color: ${({ active }) =>
+    active ? colors.orange : `rgba(255, 118, 12, 0.25)`};
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
   width: 40%;

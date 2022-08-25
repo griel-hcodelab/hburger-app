@@ -12,13 +12,16 @@ const PaymentScreen = ({ navigation }: any) => {
         <Header title="Pagamento" />
         <Form>
           <FormInputs>
-            <FormInput placeholder="Número do Cartão" />
+            <FormInput
+              placeholder="Número do Cartão"
+              keyboardType="numeric"
+            />
             <FormRow>
               <FormColumn>
-                <FormInput placeholder="Validade" />
+                <FormInput placeholder="Validade" keyboardType="numeric" />
               </FormColumn>
               <FormColumn>
-                <FormInput placeholder="CVV" />
+                <FormInput placeholder="CVV" keyboardType="numeric" />
               </FormColumn>
             </FormRow>
             <FormInput placeholder="Nome" />
