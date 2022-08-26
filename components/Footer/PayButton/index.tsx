@@ -1,14 +1,25 @@
+import { useEffect, useState } from "react";
 import styled from "styled-components/native";
 import { colors, sizes } from "../../../utils/variables";
 import PayIcon from "../../Icons/PayIcon";
 
 type PayButtonProps = {
-  onPress?: () => void; 
+  onPress?: () => void;
+  disabled: boolean;
 };
 
-const PayButton = ({ onPress }: PayButtonProps) => {
+const PayButton = ({ onPress, disabled }: PayButtonProps) => {
+  const [disabledBtn, setDisabledBtn] = useState<boolean>()
+
+  useEffect(()=>{
+
+    setDisabledBtn(disabled)
+    console.log(disabled)
+
+  },[disabled])
+
   return (
-    <Container onPress={onPress}>
+    <Container disabled={disabledBtn} onPress={onPress}>
       <PayIcon />
       <PayText>PAGAR</PayText>
     </Container>
