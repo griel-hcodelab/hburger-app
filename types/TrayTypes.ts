@@ -22,5 +22,5 @@ export type TrayItemType = {
   id: number;
   bread: BreadType | undefined;
   ingredients: IngredientType[];
-  subTotal: number;
+  total: number;
 };

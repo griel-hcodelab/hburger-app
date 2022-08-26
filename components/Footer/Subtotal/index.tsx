@@ -1,18 +1,14 @@
-import { PropsWithChildren } from "react";
 import styled from "styled-components/native";
+import { useCarte } from "../../../context/Carte";
 import { formatCurrency } from "../../../utils/formatCurrenty";
 import { colors, sizes } from "../../../utils/variables";
 
-type SubtotalPropsType = {
-  value: number;
-};
+const Subtotal = () => {
+  const Carte = useCarte();
 
-const Subtotal: React.FC<PropsWithChildren<SubtotalPropsType>> = ({
-  value,
-}) => {
   return (
     <Container>
-      <SubtotalValue>{formatCurrency(value)}</SubtotalValue>
+      <SubtotalValue>{formatCurrency(Carte.total)}</SubtotalValue>
       <SubtotalLabel>SUBTOTAL</SubtotalLabel>
     </Container>
   );

@@ -22,7 +22,7 @@ const Tray = () => {
       {Carte.trayItems.map((item, index) => (
         <TrayItem key={item.id}>
           <TrayItemName>Hamburger {index + 1}</TrayItemName>
-          <TrayItemPrice>{formatCurrency(item.subTotal)}</TrayItemPrice>
+          <TrayItemPrice>{formatCurrency(item.total)}</TrayItemPrice>
           <TrayItemButton onPress={() => Carte.removeTrayItem(item.id)}>
             <DeleteIcon />
           </TrayItemButton>

@@ -6,6 +6,7 @@ import {
   ReactNode,
   useCallback,
   useContext,
+  useEffect,
   useState,
 } from "react";
 
@@ -18,6 +19,7 @@ type CarteContextType = {
   removeTrayItem: (id: number) => void;
   createBurger: () => void;
   trayItems: TrayItemType[];
+  total: number;
 };
 
 const CarteContext = createContext<CarteContextType>({} as CarteContextType);
@@ -26,8 +28,11 @@ export const CarteProvider = ({ children }: { children: ReactNode }) => {
   const [selectedBread, setSelectedBread] = useState<BreadType>();
   const [selectedIngredients, setSelectedIngredients] = useState<IngredientType[]>([]);
   const [trayItems, setTrayItems] = useState<TrayItemType[]>([]);
+  const [total, setTotal] = useState<number>(0);
 
-  let subTotalTemp: number;
+  useEffect(() => {
+    setTotal(trayItems.reduce((sum, item) => sum + item.total, 0));
+  }, [trayItems]);
 
   const addBread = (bread: BreadType) => {
     setSelectedBread(bread);
@@ -51,28 +56,20 @@ export const CarteProvider = ({ children }: { children: ReactNode }) => {
   }, [trayItems, setTrayItems]);
 
   const createBurger = () => {
-    calcSubtotal();
+    const ingredientsSum = selectedIngredients.reduce((sum, item) => sum + item.price, 0);
+
     setTrayItems([
       ...trayItems,
       {
         id: new Date().getTime(),
         bread: selectedBread,
         ingredients: selectedIngredients,
-        subTotal: subTotalTemp,
+        total: ingredientsSum + (selectedBread?.price || 0),
       },
     ]);
 
     setSelectedBread(undefined);
     setSelectedIngredients([]);
-  };
-
-  const calcSubtotal = () => {
-    const breadPrice = selectedBread?.price || 0;
-    const ingredientsPrice = selectedIngredients.reduce(
-      (acc, item) => acc + item.price,
-      0
-    );
-    subTotalTemp = breadPrice + ingredientsPrice;
   };
 
   return (
@@ -85,7 +82,8 @@ export const CarteProvider = ({ children }: { children: ReactNode }) => {
         createBurger,
         selectedBread,
         selectedIngredients,
-        trayItems
+        trayItems,
+        total,
       }}
     >
       {children}

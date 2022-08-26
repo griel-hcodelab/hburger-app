@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Button, Dimensions, StatusBar } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 import styled from "styled-components/native";
@@ -16,16 +16,7 @@ import { colors } from "../../utils/variables";
 
 const CarteScreenComponent = ({ navigation }: any) => {
   const [trayVisible, setTrayVisible] = useState<boolean>(false);
-  const [total, setTotal] = useState<number>(0);
   const Carte = useCarte();
-
-  useEffect(() => {
-    Carte.trayItems.forEach((item) => {
-      if (!isNaN(item.subTotal)) {
-        setTotal(total + item.subTotal);
-      }
-    });
-  }, [Carte.trayItems]);
 
   const handlePress = (ingredient: IngredientType) => {
     const ingredientIsSelected = !!(Carte.selectedIngredients.find((item) => item.id === ingredient.id));
@@ -82,7 +73,7 @@ const CarteScreenComponent = ({ navigation }: any) => {
               onPress={() => setTrayVisible(!trayVisible)}
               quantity={Carte.trayItems?.length}
             />
-            <Subtotal value={total} />
+            <Subtotal />
             <PayButton onPress={() => navigation.navigate("Payment")} />
           </FooterButtonsContainer>
         </Footer>
