@@ -1,136 +1,89 @@
-import { PropsWithChildren } from "react";
-import { Dimensions, ViewStyle } from "react-native";
-import { PanGestureHandler } from "react-native-gesture-handler";
-import Animated from "react-native-reanimated";
+import { View } from "react-native";
+import { ScrollView } from "react-native-gesture-handler";
 import styled from "styled-components/native";
-import { useTray } from "../../context/Tray";
-import { TrayTypes } from "../../types/TrayTypes";
+import { useCarte } from "../../context/Carte";
 import { formatCurrency } from "../../utils/formatCurrenty";
-import { colors, sizes } from "../../utils/variables";
+import { colors } from "../../utils/variables";
+import DeleteIcon from "../Icons/DeleteIcon";
+import TrayIcon from "../Icons/TrayIcon";
 
-const Burger = [
-  {
-    id: 1,
-    bread: {
-      id: 1,
-      name: "Pão Australiano",
-      price: 3,
-    },
-    ingredients: [
-      {
-        id: 1,
-        name: "Queijo Cheddar",
-        price: 2,
-      },
-      {
-        id: 2,
-        name: "Queijo Mussarela",
-        price: 2,
-      },
-    ],
-    total: 5,
-  },
-];
+const Tray = () => {
+  const Carte = useCarte();
 
-const Tray: React.FC<PropsWithChildren<TrayTypes>> = ({ visible, items }) => {
-  const { stylePanel, gestureHandler } = useTray();
   return (
-    <>
-      <PanGestureHandler onGestureEvent={gestureHandler}>
-        <Animated.View style={stylePanel}>
-          <TrayContainer visible={visible}>
-            {items && (
-              <TrayItems>
-                {items.map((item: any) => (
-                  <TrayItem key={item.id}>
-                    <TrayItemIdBlock>
-                      <TrayItemId>{item.id}</TrayItemId>
-                    </TrayItemIdBlock>
-                    <TrayIngredientsContainer>
-                      <TrayIngredientBlock>
-                        <TrayIngredient>{item.bread.name}</TrayIngredient>
-                        <TrayIngredientPrice>
-                          {formatCurrency(item.bread.price)}
-                        </TrayIngredientPrice>
-                      </TrayIngredientBlock>
-                      {item.ingredients.map((ingredient: any) => (
-                        <TrayIngredientBlock key={ingredient.id}>
-                          <TrayIngredient>{ingredient.name}</TrayIngredient>
-                          <TrayIngredientPrice>
-                            {formatCurrency(ingredient.price)}
-                          </TrayIngredientPrice>
-                        </TrayIngredientBlock>
-                      ))}
-                    </TrayIngredientsContainer>
-                    <TrayPriceBlock>
-                      <TrayPrice>{formatCurrency(item.subTotal)}</TrayPrice>
-                    </TrayPriceBlock>
-                  </TrayItem>
-                ))}
-              </TrayItems>
-            )}
-          </TrayContainer>
-        </Animated.View>
-      </PanGestureHandler>
-    </>
+    <TrayContainer>
+      <TrayHeader>
+        <TrayIcon style={{ height: 48, width: 48, marginRight: 16 }} />
+        <View>
+          <TrayHeaderTitle>Bandeja</TrayHeaderTitle>
+          <TrayHeaderCount>{Carte.trayItems.length} hamburguers</TrayHeaderCount>
+        </View>
+      </TrayHeader>
+      { Carte.trayItems.map((item, index) => (
+        <TrayItem key={item.id}>
+          <TrayItemName>Hamburger {index + 1}</TrayItemName>
+          <TrayItemPrice>{formatCurrency(item.subTotal)}</TrayItemPrice>
+          <TrayItemButton>
+            <DeleteIcon />
+          </TrayItemButton>
+        </TrayItem>
+      ))}
+      
+    </TrayContainer>
   );
 };
 
-const TrayContainer = styled.View<{ visible: boolean }>`
+const TrayContainer = styled(ScrollView)`
   background-color: ${colors.orange};
-  width: 100%;
-  height: ${Dimensions.get("window").height - 315}px;
   position: absolute;
-  bottom: ${({ visible }) =>
-    visible ? 75 : -Dimensions.get("screen").height}px;
+  bottom: 0;
+  top: 0;
+  width: 100%;
+  padding: 40px 20px 110px 20px;
 `;
-const TrayItems = styled.ScrollView`
-  background-color: #fff;
-  margin: ${sizes.spacePx};
-  border-radius: ${sizes.spacePx};
+
+const TrayHeader = styled.View`
+  flex-direction: row;
+  margin-bottom: 56px;
+  gap: 16px;
 `;
+
+const TrayHeaderTitle = styled.Text`
+  font-size: 24px;
+  font-weight: 700;
+  margin-top: -8px;
+`;
+
+const TrayHeaderCount = styled.Text`
+  font-size: 24px;
+  font-weight: 300;
+  margin-top: -6px;
+`;
+
 const TrayItem = styled.View`
   flex-direction: row;
-  justify-content: space-between;
-  padding: ${sizes.spacePx};
+  align-items: center;
+  border-style: dashed;
+  border-bottom-color: ${colors.dark}; 
   border-bottom-width: 1px;
-  border-bottom-color: ${colors.orange};
+  padding-bottom: 6px;
+  margin-bottom: 32px
 `;
-const TrayItemIdBlock = styled.View`
-  justify-content: center;
-  align-items: center;
-  width: 30px;
-  height: 30px;
-  border-radius: 15px;
-  background-color: ${colors.orange};
-`;
-const TrayItemId = styled.Text`
-  color: ${colors.white};
-  font-size: 17px;
-  font-weight: bold;
-`;
-const TrayIngredientBlock = styled.View`
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  flex: 1;
-  margin-left: 20px;
-  margin-right: 10px;
-  padding-right: 10px;
-  border-right-width: 1px;
-`;
-const TrayIngredientsContainer = styled.View`
+
+const TrayItemName = styled.Text`
+  font-weight: 500;
+  font-size: 16px;
   flex: 1;
 `;
-const TrayPriceBlock = styled.View`
-  justify-content: center;
-  align-items: center;
+
+const TrayItemPrice = styled.Text`
+  font-weight: 500;
+  font-size: 16px;
+  margin-right: 32px;
 `;
-const TrayPrice = styled.Text`
-  font-weight: bold;
-  font-size: 17px;
+
+const TrayItemButton = styled.TouchableOpacity`
+  padding: 0 8px;
 `;
-const TrayIngredient = styled.Text``;
-const TrayIngredientPrice = styled.Text``;
 
 export default Tray;
