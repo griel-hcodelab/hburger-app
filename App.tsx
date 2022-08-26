@@ -5,6 +5,7 @@ import { LoginScreen } from "./screens/Login";
 import { CarteScreen } from "./screens/Carte";
 import PaymentScreen from "./screens/Payment";
 import OrdersScreen from "./screens/Orders";
+import { ScreenNavigationTypes } from "./types/ScreenNavigationTypes";
 
 export default function App() {
   const [loaded] = useFonts({
