@@ -28,7 +28,9 @@ const CarteScreenComponent = ({ navigation }: any) => {
   }, [Carte.trayItems]);
 
   const handlePress = (ingredient: IngredientType) => {
-    const ingredientIsSelected = !!(Carte.selectedIngredients.find((item) => item.id === ingredient.id));
+    const ingredientIsSelected = !!Carte.selectedIngredients.find(
+      (item) => item.id === ingredient.id
+    );
 
     if (ingredientIsSelected) {
       Carte.removeIngredients(ingredient.id);
@@ -77,7 +79,11 @@ const CarteScreenComponent = ({ navigation }: any) => {
         <Button
           disabled={!Carte.selectedBread || !Carte.selectedIngredients.length}
           onPress={Carte.createBurger}
-          title={(!Carte.selectedBread || !Carte.selectedIngredients.length) ? "Escolha seu lanche" : "Salvar"}
+          title={
+            !Carte.selectedBread || !Carte.selectedIngredients.length
+              ? "Escolha seu lanche"
+              : "Salvar"
+          }
         />
         <FooterButtonsContainer>
           <TrayButton
@@ -85,7 +91,10 @@ const CarteScreenComponent = ({ navigation }: any) => {
             quantity={Carte.trayItems?.length}
           />
           <Subtotal value={total} />
-          <PayButton onPress={() => navigation.navigate("Payment")} />
+          <PayButton
+            disabled={Carte.trayItems?.length === 0}
+            onPress={() => navigation.navigate("Payment")}
+          />
         </FooterButtonsContainer>
       </Footer>
     </Container>
