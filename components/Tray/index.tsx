@@ -19,16 +19,15 @@ const Tray = () => {
           <TrayHeaderCount>{Carte.trayItems.length} hamburguers</TrayHeaderCount>
         </View>
       </TrayHeader>
-      { Carte.trayItems.map((item, index) => (
+      {Carte.trayItems.map((item, index) => (
         <TrayItem key={item.id}>
           <TrayItemName>Hamburger {index + 1}</TrayItemName>
           <TrayItemPrice>{formatCurrency(item.subTotal)}</TrayItemPrice>
-          <TrayItemButton>
+          <TrayItemButton onPress={() => Carte.removeTrayItem(item.id)}>
             <DeleteIcon />
           </TrayItemButton>
         </TrayItem>
       ))}
-      
     </TrayContainer>
   );
 };

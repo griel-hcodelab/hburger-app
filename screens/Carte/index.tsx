@@ -31,9 +31,9 @@ const CarteScreenComponent = ({ navigation }: any) => {
     const ingredientIsSelected = !!(Carte.selectedIngredients.find((item) => item.id === ingredient.id));
 
     if (ingredientIsSelected) {
-      Carte.removeIngredients(ingredient.id);
+      Carte.removeIngredient(ingredient.id);
     } else {
-      Carte.addIngredients(ingredient);
+      Carte.addIngredient(ingredient);
     }
   };
 

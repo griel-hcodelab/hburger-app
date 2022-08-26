@@ -18,7 +18,7 @@ export type TrayPanelTypes = {
   styleArrow: ViewStyle;
 };
 
-export type TrayItemsTypes = {
+export type TrayItemType = {
   id: number;
   bread: BreadType | undefined;
   ingredients: IngredientType[];
