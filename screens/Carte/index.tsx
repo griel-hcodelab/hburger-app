@@ -33,9 +33,9 @@ const CarteScreenComponent = ({ navigation }: any) => {
     );
 
     if (ingredientIsSelected) {
-      Carte.removeIngredients(ingredient.id);
+      Carte.removeIngredient(ingredient.id);
     } else {
-      Carte.addIngredients(ingredient);
+      Carte.addIngredient(ingredient);
     }
   };
 
@@ -43,60 +43,59 @@ const CarteScreenComponent = ({ navigation }: any) => {
     <Container>
       <StatusBar barStyle="light-content" backgroundColor={colors.orange} />
       <Header />
-
-      <CarteScrollView>
-        <CarteItemCategory>Escolha o pão</CarteItemCategory>
-        {BREADS.map((bread) => (
-          <CarteItem
-            key={bread.id}
-            type="radio"
-            name={bread.name}
-            value={bread.price}
-            checked={Carte.selectedBread?.id === bread.id}
-            onPress={() => Carte.addBread(bread)}
-          />
-        ))}
-        <CarteItemCategory>Ingredientes</CarteItemCategory>
-        {INGREDIENTS.map((ingredient) => (
-          <CarteItem
-            key={ingredient.id}
-            type="check"
-            name={ingredient.name}
-            value={ingredient.price}
-            checked={
-              Carte.selectedIngredients.find(
-                (item) => item.id === ingredient.id
-              ) !== undefined
-            }
-            onPress={() => handlePress(ingredient)}
-          />
-        ))}
-      </CarteScrollView>
-
-      <Tray visible={trayVisible} items={Carte.trayItems} />
-
-      <Footer>
-        <Button
-          disabled={!Carte.selectedBread || !Carte.selectedIngredients.length}
-          onPress={Carte.createBurger}
-          title={
+      <CarteContent>
+        <CarteScrollView>
+          <CarteItemCategory>Escolha o pão</CarteItemCategory>
+          {BREADS.map((bread) => (
+            <CarteItem
+              key={bread.id}
+              type="radio"
+              name={bread.name}
+              value={bread.price}
+              checked={Carte.selectedBread?.id === bread.id}
+              onPress={() => Carte.addBread(bread)}
+            />
+          ))}
+          <CarteItemCategory>Ingredientes</CarteItemCategory>
+          {INGREDIENTS.map((ingredient) => (
+            <CarteItem
+              key={ingredient.id}
+              type="check"
+              name={ingredient.name}
+              value={ingredient.price}
+              checked={
+                Carte.selectedIngredients.find(
+                  (item) => item.id === ingredient.id
+                ) !== undefined
+              }
+              onPress={() => handlePress(ingredient)}
+            />
+          ))}
+        </CarteScrollView>
+        {trayVisible && <Tray />}
+        <Footer>
+          <Button
+            disabled={!Carte.selectedBread || !Carte.selectedIngredients.length}
+            onPress={Carte.createBurger}
+            title={
             !Carte.selectedBread || !Carte.selectedIngredients.length
               ? "Escolha seu lanche"
               : "Salvar"
           }
-        />
-        <FooterButtonsContainer>
-          <TrayButton
-            onPress={() => setTrayVisible(!trayVisible)}
-            quantity={Carte.trayItems?.length}
           />
-          <Subtotal value={total} />
-          <PayButton
+          <FooterButtonsContainer>
+            <TrayButton
+              onPress={() => setTrayVisible(!trayVisible)}
+              quantity={Carte.trayItems?.length}
+            />
+            <Subtotal value={total} />
+            <PayButton
             disabled={Carte.trayItems?.length === 0}
             onPress={() => navigation.navigate("Payment")}
           />
-        </FooterButtonsContainer>
-      </Footer>
+          </FooterButtonsContainer>
+        </Footer>
+      </CarteContent>
     </Container>
   );
 };
@@ -105,6 +104,11 @@ const Container = styled.SafeAreaView`
   background-color: ${colors.dark};
   width: ${Dimensions.get("window").width}px;
   height: ${Dimensions.get("window").height}px;
+`;
+
+const CarteContent = styled.View`
+  flex: 1;
+  position: relative;
 `;
 
 const CarteScrollView = styled(ScrollView)`

@@ -1,67 +1,61 @@
 import type BreadType from "../../types/Bread";
 import type IngredientType from "../../types/Ingredient";
-import type { TrayItemsTypes } from "../../types/TrayTypes";
+import type { TrayItemType } from "../../types/TrayTypes";
 import {
   createContext,
   ReactNode,
+  useCallback,
   useContext,
   useState,
 } from "react";
 
 type CarteContextType = {
   addBread: (bread: BreadType) => void;
-  addIngredients: (ingredient: IngredientType) => void;
+  addIngredient: (ingredient: IngredientType) => void;
   selectedBread: BreadType | undefined;
   selectedIngredients: IngredientType[];
-  removeIngredients: (id: number) => void;
+  removeIngredient: (id: number) => void;
+  removeTrayItem: (id: number) => void;
   createBurger: () => void;
-  trayItems: TrayItemsTypes[];
+  trayItems: TrayItemType[];
 };
 
 const CarteContext = createContext<CarteContextType>({} as CarteContextType);
 
 export const CarteProvider = ({ children }: { children: ReactNode }) => {
   const [selectedBread, setSelectedBread] = useState<BreadType>();
-  const [selectedIngredients, setSelectedIngredients] = useState<
-  IngredientType[]
-  >([]);
-  const [trayItems, setTrayItems] = useState<TrayItemsTypes[]>([]);
+  const [selectedIngredients, setSelectedIngredients] = useState<IngredientType[]>([]);
+  const [trayItems, setTrayItems] = useState<TrayItemType[]>([]);
 
   let subTotalTemp: number;
 
-  const addBread = ({ id, name, price }: BreadType) => {
-    setSelectedBread({
-      id,
-      name,
-      price,
-    });
+  const addBread = (bread: BreadType) => {
+    setSelectedBread(bread);
   };
 
-  const addIngredients = ({ id, name, price }: IngredientType) => {
+  const addIngredient = (ingredient: IngredientType) => {
     setSelectedIngredients([
       ...selectedIngredients,
-      {
-        id,
-        name,
-        price,
-      },
+      ingredient,
     ]);
   };
 
-  const removeIngredients = (id: number) => {
+  const removeIngredient = (id: number) => {
     setSelectedIngredients(
       selectedIngredients.filter((item) => item.id !== id)
     );
   };
 
-  const createBurger = async () => {
-    await calcSubtotal();
-    const id = trayItems.length + 1;
+  const removeTrayItem = useCallback((id: number) => {
+    setTrayItems(trayItems.filter((item) => item.id !== id));
+  }, [trayItems, setTrayItems]);
 
+  const createBurger = () => {
+    calcSubtotal();
     setTrayItems([
       ...trayItems,
       {
-        id,
+        id: new Date().getTime(),
         bread: selectedBread,
         ingredients: selectedIngredients,
         subTotal: subTotalTemp,
@@ -72,7 +66,7 @@ export const CarteProvider = ({ children }: { children: ReactNode }) => {
     setSelectedIngredients([]);
   };
 
-  const calcSubtotal = async () => {
+  const calcSubtotal = () => {
     const breadPrice = selectedBread?.price || 0;
     const ingredientsPrice = selectedIngredients.reduce(
       (acc, item) => acc + item.price,
@@ -85,8 +79,9 @@ export const CarteProvider = ({ children }: { children: ReactNode }) => {
     <CarteContext.Provider
       value={{
         addBread,
-        addIngredients,
-        removeIngredients,
+        addIngredient,
+        removeIngredient,
+        removeTrayItem,
         createBurger,
         selectedBread,
         selectedIngredients,

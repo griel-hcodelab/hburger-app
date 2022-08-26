@@ -1,10 +1,10 @@
 import { Image } from "react-native";
 
-const TrayIcon = () => {
+const TrayIcon = ({ style }: { style?: any }) => {
   return (
     <Image
       source={require("../../../assets/tray.png")}
-      style={{ height: 24, width: 24, marginRight: 10 }}
+      style={style || { height: 24, width: 24, marginRight: 10 }}
     />
   );
 };
