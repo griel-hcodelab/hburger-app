@@ -26,7 +26,7 @@ const CarteItem: React.FC<PropsWithChildren<CarteItemTypes>> = ({
       {type === "check" && <CheckButton onPress={onPress} checked={checked} />}
       <CarteItemWrap>
         <CarteItemText>{name}</CarteItemText>
-        <CarteItemValue>{formatCurrency(value)}</CarteItemValue>
+        <CarteItemValue>{value === 0 ? 'Grátis!' : formatCurrency(value)}</CarteItemValue>
       </CarteItemWrap>
     </CarteItemContainer>
   );
