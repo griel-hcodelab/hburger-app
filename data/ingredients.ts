@@ -31,4 +31,9 @@ export const INGREDIENTS: IngredientType[] = [
     name: "Carne de Peixe 125g",
     price: 8.59,
   },
+  {
+    id: 7,
+    name: "Bacon Premium (Promoção)",
+    price: 1.99,
+  },
 ];
