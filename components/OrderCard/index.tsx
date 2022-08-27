@@ -1,4 +1,5 @@
 import styled from "styled-components/native";
+import { formatCurrency } from "../../utils/formatCurrenty";
 import { colors, sizes } from "../../utils/variables";
 import DeleteIcon from "../Icons/DeleteIcon";
 import DetailsIcon from "../Icons/DetailsIcon";
@@ -32,7 +33,7 @@ const OrderCard = ({ id, total, items }: OrderCardProps) => {
         </CardDetail>
         <CardDetail>
           <CardDetailText>Valor:</CardDetailText>
-          <CardDetailText>R$ {total}</CardDetailText>
+          <CardDetailText>{formatCurrency(total)}</CardDetailText>
         </CardDetail>
         <CardDetail>
           <CardDetailText>Itens:</CardDetailText>
