@@ -31,7 +31,7 @@ export const CarteProvider = ({ children }: { children: ReactNode }) => {
   const [total, setTotal] = useState<number>(0);
 
   useEffect(() => {
-    setTotal(trayItems.reduce((sum, item) => sum + item.total, 0));
+    setTotal(+trayItems.reduce((sum, item) => sum + item.total, 0).toFixed(2));
   }, [trayItems]);
 
   const addBread = (bread: BreadType) => {
@@ -56,7 +56,7 @@ export const CarteProvider = ({ children }: { children: ReactNode }) => {
   }, [trayItems, setTrayItems]);
 
   const createBurger = () => {
-    const ingredientsSum = selectedIngredients.reduce((sum, item) => sum + item.price, 0);
+    const ingredientsSum = +selectedIngredients.reduce((sum, item) => sum + item.price, 0).toFixed(2);
 
     setTrayItems([
       ...trayItems,
@@ -64,7 +64,7 @@ export const CarteProvider = ({ children }: { children: ReactNode }) => {
         id: new Date().getTime(),
         bread: selectedBread,
         ingredients: selectedIngredients,
-        total: ingredientsSum + (selectedBread?.price || 0),
+        total: +(ingredientsSum + (selectedBread?.price || 0)).toFixed(2),
       },
     ]);
 
