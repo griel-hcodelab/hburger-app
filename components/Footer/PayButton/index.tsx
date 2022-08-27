@@ -12,10 +12,7 @@ const PayButton = ({ onPress, disabled }: PayButtonProps) => {
   const [disabledBtn, setDisabledBtn] = useState<boolean>()
 
   useEffect(()=>{
-
     setDisabledBtn(disabled)
-    console.log(disabled)
-
   },[disabled])
 
   return (
