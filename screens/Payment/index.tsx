@@ -1,10 +1,19 @@
+import { useEffect } from "react";
 import { Dimensions, ScrollView, StatusBar } from "react-native";
 import styled from "styled-components/native";
 import Header from "../../components/Header";
 import PayIcon from "../../components/Icons/PayIcon";
+import { CarteProvider, useCarte } from "../../context/Carte";
 import { colors, sizes } from "../../utils/variables";
 
-const PaymentScreen = ({ navigation }: any) => {
+const PaymentComponent = ({ navigation }: any) => {
+  const Carte = useCarte();
+
+  const handlePayment = () => {
+    Carte.clearTray();
+    navigation.navigate("Orders");
+  };
+
   return (
     <ScrollView>
       <Container>
@@ -27,7 +36,7 @@ const PaymentScreen = ({ navigation }: any) => {
             <FormInput placeholder="Nome" />
             <FormInput placeholder="Banco Emissor" />
           </FormInputs>
-          <FormSubmitButton onPress={() => navigation.navigate("Orders")}>
+          <FormSubmitButton onPress={handlePayment}>
             <PayIcon />
             <FormSubmitButtonText>Pagar Agora</FormSubmitButtonText>
           </FormSubmitButton>
@@ -88,5 +97,13 @@ const FormSubmitButtonText = styled.Text`
   font-size: 16px;
   font-weight: bold;
 `;
+
+const PaymentScreen = ({ navigation }: any) => {
+  return (
+    <CarteProvider>
+      <PaymentComponent navigation={navigation} />
+    </CarteProvider>
+  );
+};
 
 export default PaymentScreen;

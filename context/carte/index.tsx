@@ -18,6 +18,7 @@ type CarteContextType = {
   removeIngredient: (id: number) => void;
   removeTrayItem: (id: number) => void;
   createBurger: () => void;
+  clearTray: () => void;
   trayItems: TrayItemType[];
   total: number;
 };
@@ -72,6 +73,12 @@ export const CarteProvider = ({ children }: { children: ReactNode }) => {
     setSelectedIngredients([]);
   };
 
+  const clearTray = useCallback(() => {
+    setTrayItems([]);
+    setSelectedBread(undefined);
+    setSelectedIngredients([]);
+  }, [setTrayItems, setSelectedBread, setSelectedIngredients]);
+
   return (
     <CarteContext.Provider
       value={{
@@ -80,6 +87,7 @@ export const CarteProvider = ({ children }: { children: ReactNode }) => {
         removeIngredient,
         removeTrayItem,
         createBurger,
+        clearTray,
         selectedBread,
         selectedIngredients,
         trayItems,
