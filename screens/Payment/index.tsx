@@ -111,7 +111,7 @@ const Container = styled.View`
 
 const Form = styled.View`
   flex: 1;
-  margin-top: 51px;
+  margin-top: 61px;
   background-color: ${colors.white};
   position: relative;
 `;
