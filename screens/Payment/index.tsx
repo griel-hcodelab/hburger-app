@@ -102,7 +102,7 @@ const PaymentComponent = ({ navigation }: any) => {
               onChangeText={(value: string) => setBank(value)}
             />
           </FormInputs>
-          <FormSubmitButton onPress={handlePayment}>
+          <FormSubmitButton disabled={isLoading} onPress={handlePayment}>
             {isLoading ?
               <ActivityIndicator
                 size="large"
