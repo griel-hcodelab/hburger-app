@@ -7,7 +7,8 @@
     "android": "expo start --android",
     "ios": "expo start --ios",
     "web": "expo start --web",
-    "build:dev": "eas build --platform android --profile dev"
+    "build:dev": "eas build --platform android --profile dev",
+    "build:prod": "eas build --platform android --profile production"
   },
   "dependencies": {
     "@react-navigation/native": "^6.0.11",
@@ -18,7 +19,7 @@
     "expo-status-bar": "~1.4.0",
     "react": "18.0.0",
     "react-dom": "18.0.0",
-    "react-native": "0.69.4",
+    "react-native": "0.69.5",
     "react-native-gesture-handler": "~2.5.0",
     "react-native-masked-text": "^1.13.0",
     "react-native-reanimated": "~2.9.1",
