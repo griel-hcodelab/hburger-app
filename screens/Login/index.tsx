@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import {
+  ActivityIndicator,
   Dimensions,
   ScrollView,
   StatusBar,
@@ -7,12 +8,98 @@ import {
 } from "react-native";
 import styled from "styled-components/native";
 import Hburger from "../../components/Logo/Hburger";
+import { useApp } from "../../context/App";
 import { colors, sizes } from "../../utils/variables";
 
 type activeBarTypes = "login" | "register" | "forgot";
 
 export const LoginScreen = ({ navigation }: any) => {
   const [activeTab, setActiveTab] = useState<activeBarTypes>("login");
+  const [isLoading, setIsLoading] = useState(false);
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
+  const { showToast } = useApp();
+
+  useEffect(() => {
+    setPassword('');
+  }, [activeTab]);
+
+  const login = useCallback(async () => {
+    if (!email) {
+      showToast("Preencha o campo E-mail");
+      return;
+    }
+    if (!password) {
+      showToast("Preencha o campo Senha");
+      return;
+    }
+
+    setIsLoading(true);
+
+    await new Promise((resolve) => {
+      setTimeout(resolve, 2000);
+    });
+    
+    setIsLoading(false);
+
+    navigation.navigate("Carte");
+  }, [email, password]);
+  
+  const register = useCallback(async () => {
+    if (!name) {
+      showToast("Preencha o campo Nome");
+      return;
+    }
+    if (!email) {
+      showToast("Preencha o campo E-mail");
+      return;
+    }
+    if (!password) {
+      showToast("Preencha o campo Senha");
+      return;
+    }
+
+    setIsLoading(true);
+
+    await new Promise((resolve) => {
+      setTimeout(resolve, 2000);
+    });
+    
+    setIsLoading(false);
+
+    navigation.navigate("Carte");
+  }, [email, password, name]);
+
+  const recoverPassword = useCallback(async () => {
+    if (!email) {
+      showToast("Preencha o campo E-mail");
+      return;
+    }
+
+    setIsLoading(true);
+
+    await new Promise((resolve) => {
+      setTimeout(resolve, 2000);
+    });
+    
+    setIsLoading(false);
+
+    showToast(`Um email de recuperação foi enviado para ${email}`);
+
+    setActiveTab('login');
+  }, [email]);
+
+  const handleSubmit = useCallback(() => {
+    if (activeTab === 'login') {
+      login();
+    } else if (activeTab === 'forgot') {
+      recoverPassword();
+    } else if (activeTab === 'register') {
+      register();
+    }
+  }, [activeTab, login, recoverPassword, register]);
 
   return (
     <ScrollView>
@@ -40,18 +127,27 @@ export const LoginScreen = ({ navigation }: any) => {
                 <FormForgotLabel>Informe o seu e-mail:</FormForgotLabel>
               )}
               {activeTab === "register" && (
-                <FormInput placeholder="Nome" returnKeyType={"next"} />
+                <FormInput
+                  placeholder="Nome"
+                  returnKeyType={"next"}
+                  value={name}
+                  onChangeText={(value: string) => setName(value)}
+                />
               )}
               <FormInput
                 placeholder="E-mail"
                 keyboardType="email-address"
                 returnKeyType={"next"}
+                value={email}
+                onChangeText={(value: string) => setEmail(value)}
               />
               {activeTab !== "forgot" && (
                 <FormInput
                   placeholder="Senha"
                   secureTextEntry={true}
                   returnKeyType={"send"}
+                  value={password}
+                  onChangeText={(value: string) => setPassword(value)}
                 />
               )}
             </FormInputContainer>
@@ -61,8 +157,17 @@ export const LoginScreen = ({ navigation }: any) => {
                   Esqueceu a senha?
                 </FormForgotPasswordButton>
               </TouchableOpacity>
-              <FormButton onPress={() => navigation.navigate("Carte")}>
-                <FormButtonText>Enviar</FormButtonText>
+              <FormButton
+                disabled={isLoading}
+                onPress={handleSubmit}
+              >
+                {isLoading &&
+                  <ActivityIndicator
+                    size="large"
+                    color={colors.white}
+                  />
+                }
+                {!isLoading && <FormButtonText>Enviar</FormButtonText>}
               </FormButton>
             </FormFooter>
           </Form>
