@@ -7,7 +7,8 @@
     "android": "expo start --android",
     "ios": "expo start --ios",
     "web": "expo start --web",
-    "build:dev": "eas build --platform android --profile dev"
+    "build:dev": "eas build --platform android --profile dev",
+    "build:prod": "eas build --platform android --profile production"
   },
   "dependencies": {
     "@react-navigation/native": "^6.0.11",
