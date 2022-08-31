@@ -1,5 +1,5 @@
-import { useCallback, useEffect, useState } from "react";
-import { Dimensions, ScrollView, StatusBar } from "react-native";
+import { useCallback, useState } from "react";
+import { ActivityIndicator, Dimensions, ScrollView, StatusBar } from "react-native";
 import styled from "styled-components/native";
 import Header from "../../components/Header";
 import PayIcon from "../../components/Icons/PayIcon";
@@ -14,11 +14,12 @@ const PaymentComponent = ({ navigation }: any) => {
   const [cvv, setCvv] = useState('');
   const [name, setName] = useState('');
   const [bank, setBank] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
   const { clearTray } = useCarte();
   const { showToast } = useApp();
 
-  const handlePayment = useCallback(() => {
+  const handlePayment = useCallback(async () => {
     if (!cardNumber) {
       showToast("Preencha o campo Número do Cartão");
       return;
@@ -39,6 +40,14 @@ const PaymentComponent = ({ navigation }: any) => {
       showToast("Preencha o campo Banco Emissor");
       return;
     }
+
+    setIsLoading(true);
+
+    await new Promise((resolve) => {
+      setTimeout(resolve, 2000);
+    });
+    
+    setIsLoading(false);
 
     clearTray();
 
@@ -94,8 +103,16 @@ const PaymentComponent = ({ navigation }: any) => {
             />
           </FormInputs>
           <FormSubmitButton onPress={handlePayment}>
-            <PayIcon />
-            <FormSubmitButtonText>Pagar Agora</FormSubmitButtonText>
+            {isLoading ?
+              <ActivityIndicator
+                size="large"
+                color={colors.dark}
+              />
+              : <>
+                <PayIcon />
+                <FormSubmitButtonText>Pagar Agora</FormSubmitButtonText>
+              </>
+            }
           </FormSubmitButton>
         </Form>
       </Container>
