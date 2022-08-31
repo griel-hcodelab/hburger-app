@@ -1,10 +1,50 @@
+import { useCallback, useEffect, useState } from "react";
 import { Dimensions, ScrollView, StatusBar } from "react-native";
 import styled from "styled-components/native";
 import Header from "../../components/Header";
 import PayIcon from "../../components/Icons/PayIcon";
+import { InputField } from "../../components/InputField";
+import { useApp } from "../../context/App";
+import { CarteProvider, useCarte } from "../../context/Carte";
 import { colors, sizes } from "../../utils/variables";
 
-const PaymentScreen = ({ navigation }: any) => {
+const PaymentComponent = ({ navigation }: any) => {
+  const [cardNumber, setCardNumber] = useState('');
+  const [expiryDate, setExpiryDate] = useState('');
+  const [cvv, setCvv] = useState('');
+  const [name, setName] = useState('');
+  const [bank, setBank] = useState('');
+
+  const { clearTray } = useCarte();
+  const { showToast } = useApp();
+
+  const handlePayment = useCallback(() => {
+    if (!cardNumber) {
+      showToast("Preencha o campo Número do Cartão");
+      return;
+    }
+    if (!expiryDate) {
+      showToast("Preencha o campo Validade");
+      return;
+    }
+    if (!cvv) {
+      showToast("Preencha o campo CVV");
+      return;
+    }
+    if (!name) {
+      showToast("Preencha o campo Nome");
+      return;
+    }
+    if (!bank) {
+      showToast("Preencha o campo Banco Emissor");
+      return;
+    }
+
+    clearTray();
+
+    navigation.navigate("Orders");
+  }, [cvv, cardNumber, expiryDate, name, bank]);
+
   return (
     <ScrollView>
       <Container>
@@ -12,22 +52,48 @@ const PaymentScreen = ({ navigation }: any) => {
         <Header title="Pagamento" />
         <Form>
           <FormInputs>
-            <FormInput
+            <InputField
+              type="credit-card"
               placeholder="Número do Cartão"
-              keyboardType="numeric"
+              keyboardType="decimal-pad"
+              maxLength={19}
+              value={cardNumber}
+              onChangeText={(value: string) => setCardNumber(value)}
             />
             <FormRow>
               <FormColumn>
-                <FormInput placeholder="Validade" keyboardType="numeric" />
+                <InputField
+                  placeholder="Validade"
+                  keyboardType="decimal-pad"
+                  maxLength={5}
+                  type="datetime"
+                  options={{ format: 'MM/AA' }}
+                  value={expiryDate}
+                  onChangeText={(value: string) => setExpiryDate(value)}
+                />
               </FormColumn>
               <FormColumn>
-                <FormInput placeholder="CVV" keyboardType="numeric" />
+                <InputField
+                  placeholder="CVV"
+                  keyboardType="decimal-pad"
+                  maxLength={4}
+                  value={cvv}
+                  onChangeText={(value: string) => setCvv(value)}
+                />
               </FormColumn>
             </FormRow>
-            <FormInput placeholder="Nome" />
-            <FormInput placeholder="Banco Emissor" />
+            <InputField
+              placeholder="Nome"
+              value={name}
+              onChangeText={(value: string) => setName(value)}
+            />
+            <InputField
+              placeholder="Banco Emissor"
+              value={bank}
+              onChangeText={(value: string) => setBank(value)}
+            />
           </FormInputs>
-          <FormSubmitButton onPress={() => navigation.navigate("Orders")}>
+          <FormSubmitButton onPress={handlePayment}>
             <PayIcon />
             <FormSubmitButtonText>Pagar Agora</FormSubmitButtonText>
           </FormSubmitButton>
@@ -45,7 +111,7 @@ const Container = styled.View`
 
 const Form = styled.View`
   flex: 1;
-  margin-top: 51px;
+  margin-top: 61px;
   background-color: ${colors.white};
   position: relative;
 `;
@@ -61,14 +127,6 @@ const FormColumn = styled.View`
 
 const FormInputs = styled.View`
   padding: ${sizes.space * 2.6}px;
-`;
-
-const FormInput = styled.TextInput`
-  height: 50px;
-  margin-bottom: ${sizes.space * 1.5}px;
-  padding: 0 ${sizes.space * 2}px;
-  border: 1px solid ${colors.gray};
-  border-radius: 10px;
 `;
 
 const FormSubmitButton = styled.TouchableOpacity`
@@ -88,5 +146,13 @@ const FormSubmitButtonText = styled.Text`
   font-size: 16px;
   font-weight: bold;
 `;
+
+const PaymentScreen = ({ navigation }: any) => {
+  return (
+    <CarteProvider>
+      <PaymentComponent navigation={navigation} />
+    </CarteProvider>
+  );
+};
 
 export default PaymentScreen;
