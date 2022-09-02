@@ -1,7 +1,7 @@
-import styled from "styled-components/native";
-import { useCarte } from "../../../context/Carte";
-import { formatCurrency } from "../../../utils/formatCurrenty";
-import { colors, sizes } from "../../../utils/variables";
+import styled from 'styled-components/native';
+import { useCarte } from '../../../context/carte';
+import { formatCurrency } from '../../../utils/formatCurrenty';
+import { colors, sizes } from '../../../utils/variables';
 
 const Subtotal = () => {
   const Carte = useCarte();

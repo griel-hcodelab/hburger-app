@@ -1,11 +1,11 @@
-import { View } from "react-native";
-import { ScrollView } from "react-native-gesture-handler";
-import styled from "styled-components/native";
-import { useCarte } from "../../context/Carte";
-import { formatCurrency } from "../../utils/formatCurrenty";
-import { colors } from "../../utils/variables";
-import DeleteIcon from "../Icons/DeleteIcon";
-import TrayIcon from "../Icons/TrayIcon";
+import { View } from 'react-native';
+import { ScrollView } from 'react-native-gesture-handler';
+import styled from 'styled-components/native';
+import { useCarte } from '../../context/carte';
+import { formatCurrency } from '../../utils/formatCurrenty';
+import { colors } from '../../utils/variables';
+import DeleteIcon from '../Icons/DeleteIcon';
+import TrayIcon from '../Icons/TrayIcon';
 
 const Tray = () => {
   const Carte = useCarte();
@@ -16,7 +16,9 @@ const Tray = () => {
         <TrayIcon style={{ height: 48, width: 48, marginRight: 16 }} />
         <View>
           <TrayHeaderTitle>Bandeja</TrayHeaderTitle>
-          <TrayHeaderCount>{Carte.trayItems.length} hamburguers</TrayHeaderCount>
+          <TrayHeaderCount>
+            {Carte.trayItems.length} hamburguers
+          </TrayHeaderCount>
         </View>
       </TrayHeader>
       {Carte.trayItems.map((item, index) => (
@@ -63,10 +65,10 @@ const TrayItem = styled.View`
   flex-direction: row;
   align-items: center;
   border-style: dashed;
-  border-bottom-color: ${colors.dark}; 
+  border-bottom-color: ${colors.dark};
   border-bottom-width: 1px;
   padding-bottom: 6px;
-  margin-bottom: 32px
+  margin-bottom: 32px;
 `;
 
 const TrayItemName = styled.Text`

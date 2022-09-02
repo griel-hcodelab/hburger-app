@@ -1,18 +1,18 @@
-import { useState } from "react";
-import { Button, Dimensions, StatusBar } from "react-native";
-import { ScrollView } from "react-native-gesture-handler";
-import styled from "styled-components/native";
-import CarteItem from "../../components/Carte/CarteItem";
-import PayButton from "../../components/Footer/PayButton";
-import Subtotal from "../../components/Footer/Subtotal";
-import TrayButton from "../../components/Footer/TrayButton";
-import Header from "../../components/Header";
-import Tray from "../../components/Tray";
-import { CarteProvider, useCarte } from "../../context/Carte";
-import { BREADS, INGREDIENTS } from "../../data";
+import { useState } from 'react';
+import { Button, Dimensions, StatusBar } from 'react-native';
+import { ScrollView } from 'react-native-gesture-handler';
+import styled from 'styled-components/native';
+import CarteItem from '../../components/Carte/CarteItem';
+import PayButton from '../../components/Footer/PayButton';
+import Subtotal from '../../components/Footer/Subtotal';
+import TrayButton from '../../components/Footer/TrayButton';
+import Header from '../../components/Header';
+import Tray from '../../components/Tray';
+import { CarteProvider, useCarte } from '../../context/carte';
+import { BREADS, INGREDIENTS } from '../../data';
 
-import IngredientType from "../../types/Ingredient";
-import { colors } from "../../utils/variables";
+import IngredientType from '../../types/Ingredient';
+import { colors } from '../../utils/variables';
 
 const CarteScreenComponent = ({ navigation }: any) => {
   const [trayVisible, setTrayVisible] = useState<boolean>(false);
@@ -69,10 +69,10 @@ const CarteScreenComponent = ({ navigation }: any) => {
             disabled={!Carte.selectedBread || !Carte.selectedIngredients.length}
             onPress={Carte.createBurger}
             title={
-            !Carte.selectedBread || !Carte.selectedIngredients.length
-              ? "Escolha seu lanche"
-              : "Salvar"
-          }
+              !Carte.selectedBread || !Carte.selectedIngredients.length
+                ? 'Escolha seu lanche'
+                : 'Salvar'
+            }
           />
           <FooterButtonsContainer>
             <TrayButton
@@ -82,7 +82,7 @@ const CarteScreenComponent = ({ navigation }: any) => {
             <Subtotal />
             <PayButton
               disabled={Carte.trayItems?.length === 0}
-              onPress={() => navigation.navigate("Payment")}
+              onPress={() => navigation.navigate('Payment')}
             />
           </FooterButtonsContainer>
         </Footer>
@@ -93,8 +93,8 @@ const CarteScreenComponent = ({ navigation }: any) => {
 
 const Container = styled.SafeAreaView`
   background-color: ${colors.dark};
-  width: ${Dimensions.get("window").width}px;
-  height: ${Dimensions.get("window").height}px;
+  width: ${Dimensions.get('window').width}px;
+  height: ${Dimensions.get('window').height}px;
 `;
 
 const CarteContent = styled.View`
