@@ -1,12 +1,17 @@
-import { useCallback, useState } from "react";
-import { ActivityIndicator, Dimensions, ScrollView, StatusBar } from "react-native";
-import styled from "styled-components/native";
-import Header from "../../components/Header";
-import PayIcon from "../../components/Icons/PayIcon";
-import { InputField } from "../../components/InputField";
-import { useApp } from "../../context/App";
-import { CarteProvider, useCarte } from "../../context/Carte";
-import { colors, sizes } from "../../utils/variables";
+import { useCallback, useState } from 'react';
+import {
+  ActivityIndicator,
+  Dimensions,
+  ScrollView,
+  StatusBar,
+} from 'react-native';
+import styled from 'styled-components/native';
+import Header from '../../components/Header';
+import PayIcon from '../../components/Icons/PayIcon';
+import { InputField } from '../../components/InputField';
+import { useApp } from '../../context/App';
+import { CarteProvider, useCarte } from '../../context/carte';
+import { colors, sizes } from '../../utils/variables';
 
 const PaymentComponent = ({ navigation }: any) => {
   const [cardNumber, setCardNumber] = useState('');
@@ -21,23 +26,23 @@ const PaymentComponent = ({ navigation }: any) => {
 
   const handlePayment = useCallback(async () => {
     if (!cardNumber) {
-      showToast("Preencha o campo Número do Cartão");
+      showToast('Preencha o campo Número do Cartão');
       return;
     }
     if (!expiryDate) {
-      showToast("Preencha o campo Validade");
+      showToast('Preencha o campo Validade');
       return;
     }
     if (!cvv) {
-      showToast("Preencha o campo CVV");
+      showToast('Preencha o campo CVV');
       return;
     }
     if (!name) {
-      showToast("Preencha o campo Nome");
+      showToast('Preencha o campo Nome');
       return;
     }
     if (!bank) {
-      showToast("Preencha o campo Banco Emissor");
+      showToast('Preencha o campo Banco Emissor');
       return;
     }
 
@@ -46,12 +51,12 @@ const PaymentComponent = ({ navigation }: any) => {
     await new Promise((resolve) => {
       setTimeout(resolve, 2000);
     });
-    
+
     setIsLoading(false);
 
     clearTray();
 
-    navigation.navigate("Orders");
+    navigation.navigate('Orders');
   }, [cvv, cardNumber, expiryDate, name, bank]);
 
   return (
@@ -103,16 +108,14 @@ const PaymentComponent = ({ navigation }: any) => {
             />
           </FormInputs>
           <FormSubmitButton disabled={isLoading} onPress={handlePayment}>
-            {isLoading ?
-              <ActivityIndicator
-                size="large"
-                color={colors.dark}
-              />
-              : <>
+            {isLoading ? (
+              <ActivityIndicator size="large" color={colors.dark} />
+            ) : (
+              <>
                 <PayIcon />
                 <FormSubmitButtonText>Pagar Agora</FormSubmitButtonText>
               </>
-            }
+            )}
           </FormSubmitButton>
         </Form>
       </Container>
@@ -122,8 +125,8 @@ const PaymentComponent = ({ navigation }: any) => {
 
 const Container = styled.View`
   background-color: ${colors.dark};
-  width: ${Dimensions.get("window").width}px;
-  height: ${Dimensions.get("window").height}px;
+  width: ${Dimensions.get('window').width}px;
+  height: ${Dimensions.get('window').height}px;
 `;
 
 const Form = styled.View`
